@@ -25,6 +25,6 @@ spring:
       - platform: local-1 # 存储平台标识
         enable-storage: true  #启用存储
         enable-access: true #启用访问（线上环境建议用 Nginx 静态资源服务）
-        domain: "" # 访问域名，例如http://127.0.0.1:8030/test/file/，注意后面要带上path-patterns前缀，且不要忘了"/"
+        domain: "http://localhost:10030/test/file" # 访问域名，注意后面要带上path-patterns前缀，且不要忘了"/"
         base-path: D:/Temp/test/ # 存储路径
         path-patterns: /test/file/** # 访问路径，开启enable-access后，通过此路径可以访问到上传的文件
