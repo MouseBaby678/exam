@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import com.baymax.exam.user.enums.LoginTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,7 +32,7 @@ public class LoginManger implements Serializable {
     private Integer userId;
 
     @Schema(description = "登录类型")
-    private LoginTypeEnum loginType;
+    private String loginType;
 
     @Schema(description = "登录名")
     private String loginId;

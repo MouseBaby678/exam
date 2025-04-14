@@ -31,21 +31,6 @@ mybatis-plus:
   mapper-locations: classpath*:com/**/*.xml
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-justauth:
-  enabled: true
-  type:
-    gitee:
-      client-id: idorkey
-      client-secret: idorkey
-      redirect-uri: http://127.0.0.1:3030/uapi/public/user/login/GITEE/callback
-    qq:
-      client-id: idorkey
-      client-secret: idorkey
-      redirect-uri: http://127.0.0.1:3030/uapi/public/user/login/gitee/callback
-    github:
-      client-id: idorkey
-      client-secret: idorkey
-      redirect-uri: http://127.0.0.1:3030/uapi/public/user/login/github/callback
 #博客设置类
 exam:
   name: MGO博客平台

@@ -4,17 +4,12 @@ package com.baymax.exam.user.controller;
 import com.baymax.exam.common.core.exception.ResultException;
 import com.baymax.exam.common.core.result.Result;
 import com.baymax.exam.common.redis.utils.RedisUtils;
-import com.baymax.exam.user.enums.LoginTypeEnum;
-import com.baymax.exam.user.service.impl.JustAuthServiceImpl;
 import com.baymax.exam.user.service.impl.LoginServiceImpl;
 import com.baymax.exam.user.model.User;
 import com.baymax.exam.user.service.impl.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
-import me.zhyd.oauth.model.AuthCallback;
-import me.zhyd.oauth.request.AuthRequest;
-import me.zhyd.oauth.utils.AuthStateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -42,8 +37,6 @@ import java.io.IOException;
 public class LoginController {
     @Autowired
     LoginServiceImpl loginService;
-    @Autowired
-    JustAuthServiceImpl justAuthService;
     @Autowired
     UserServiceImpl userService;
     @Autowired
@@ -98,17 +91,5 @@ public class LoginController {
             return Result.msgError("方式不存在");
         }
         return loginService.sendEmailCode(email);
-    }
-    @GetMapping("/login/{type}/render")
-    @Operation(summary = "第三方登录跳转")
-    public void renderAuth(HttpServletResponse response,  @PathVariable LoginTypeEnum type ) throws IOException {
-        AuthRequest authRequest = justAuthService.getAuthRequest(type.getType());
-        response.sendRedirect(authRequest.authorize(AuthStateUtils.createState()));
-    }
-    @Operation(summary = "第三方登录返回")
-    @GetMapping("/login/{type}/callback")
-    public void login(HttpServletRequest request, HttpServletResponse response, AuthCallback callback,  @PathVariable LoginTypeEnum type  ) {
-//        AuthRequest authRequest = justAuthService.getAuthRequest(type);
-        loginService.authLogin(type,callback,request,response);
     }
 }
