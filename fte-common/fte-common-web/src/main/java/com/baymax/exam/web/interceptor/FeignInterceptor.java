@@ -27,12 +27,18 @@ import java.util.*;
 public class FeignInterceptor implements RequestInterceptor {
     @Override
     public void apply(RequestTemplate requestTemplate) {
-        //1、使用RequestContextHolder拿到刚进来的请求数据
-        if(UserAuthUtil.getUser()!=null){
-            requestTemplate.header(SecurityConstants.USER_TOKEN_HEADER, "{\"id\":"+UserAuthUtil.getUserId()+"}");
+        try {
+            //1、使用RequestContextHolder拿到刚进来的请求数据
+            if(UserAuthUtil.getUser()!=null){
+                requestTemplate.header(SecurityConstants.USER_TOKEN_HEADER, "{\"id\":"+UserAuthUtil.getUserId()+"}");
+            }
+            // 设置内部调用标识
+            requestTemplate.header(SecurityConstants.FROM, SecurityConstants.FROM_IN);
+            log.info("feign拦截器: {}", requestTemplate.headers());
+        } catch (Exception e) {
+            log.error("FeignInterceptor异常: {}", e.getMessage());
+            // 确保即使出现异常，也添加内部标识
+            requestTemplate.header(SecurityConstants.FROM, SecurityConstants.FROM_IN);
         }
-        // 新增一个header
-        requestTemplate.header(SecurityConstants.FROM, SecurityConstants.FROM_IN);
-        log.info("feign拦截器{}", requestTemplate.headers());
     }
 }

@@ -26,11 +26,11 @@ spring:
     #    protocol: smtps
     # 编码集
     default-encoding: UTF-8
-    nickname: baymax
+    nickname: exam
     #发送邮件的账户
-    username: youremail
+    username: exam_mail@qq.com
     #授权码
-    password: password
+    password: downjqzvyernbeih
     #    test-connection: true
     properties:
       mail:

@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * <p>
@@ -63,11 +64,12 @@ public class LoginController {
     @PostMapping("/forgetPass")
     public Result forgetPass(@RequestParam String email,
                              @RequestParam String code,
-                             @RequestBody String password){
+                             @RequestBody Map<String, String> passwordMap){
          String redisEmailCodeKey = loginService.getRedisEmailCodeKey(email);
         Integer emailCode = redisUtils.getCacheObject(redisEmailCodeKey);
         if(code.equals(emailCode.toString())){
             User userByEmail = userService.getUserByEmail(email);
+            String password = passwordMap.get("password");
             userService.updatePassword(userByEmail.getId(),password);
             redisUtils.deleteObject(redisEmailCodeKey);
             return Result.msgSuccess("修改成功");

@@ -37,13 +37,21 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
         try {
             //从token中解析用户信息并设置到Header中去
             String realToken = token.replace(SecurityConstants.JWT_TOKEN_PREFIX, "");
-            JWSObject jwsObject = JWSObject.parse(realToken);
-            String userStr = jwsObject.getPayload().toString();
-            log.info("AuthGlobalFilter.filter() user:{}",userStr);
-            ServerHttpRequest request = exchange.getRequest().mutate().header(SecurityConstants.USER_TOKEN_HEADER, userStr).build();
-            exchange = exchange.mutate().request(request).build();
-        }catch (ParseException e) {
-            e.printStackTrace();
+            // 检查token格式是否正确
+            if (realToken.contains(".")) {
+                JWSObject jwsObject = JWSObject.parse(realToken);
+                String userStr = jwsObject.getPayload().toString();
+                log.info("AuthGlobalFilter.filter() user:{}", userStr);
+                ServerHttpRequest request = exchange.getRequest().mutate().header(SecurityConstants.USER_TOKEN_HEADER, userStr).build();
+                exchange = exchange.mutate().request(request).build();
+            } else {
+                log.warn("Invalid token format: {}", realToken);
+            }
+        } catch (ParseException e) {
+            log.error("JWT解析异常: {}", e.getMessage());
+            // 解析异常时不应阻止请求继续,只记录日志
+        } catch (Exception e) {
+            log.error("处理token时发生未知异常", e);
         }
         return chain.filter(exchange);
     }

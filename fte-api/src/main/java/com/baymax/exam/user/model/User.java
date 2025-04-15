@@ -46,7 +46,7 @@ public class User extends BaseEntity {
     private String nickname;
 
     @NotBlank(message = "密码不能为空",groups = {LoginRequestValid.class,RegisterRequestValid.class,ForgetPassRequestValid.class})
-    @Pattern(regexp = "^[a-zA-Z]\\w{5,17}$",message = "密码不符合规则",groups = {LoginRequestValid.class,RegisterRequestValid.class,ForgetPassRequestValid.class})
+    @Pattern(regexp = "^[a-zA-Z0-9_]{6,18}$",message = "密码不符合规则",groups = {LoginRequestValid.class,RegisterRequestValid.class,ForgetPassRequestValid.class})
     @Schema(description = "密码")
     private String password;
 

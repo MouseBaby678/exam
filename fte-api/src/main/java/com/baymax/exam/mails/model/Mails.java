@@ -35,9 +35,11 @@ public class Mails implements Serializable {
     private Integer id;
 
     @Schema(description ="发送人")
+    @TableField(value = "`from`")
     private String from;
 
     @Schema(description ="接收人")
+    @TableField(value = "`to`")
     private String to;
 
     @Schema(description ="邮件主题")
