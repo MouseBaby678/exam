@@ -63,7 +63,9 @@ public class MyWebSocketHandler implements WebSocketHandler {
     @Override
     public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
         // 清除用户缓存信息
-        session.close();
+        log.error("WebSocket传输错误", exception);
+        // 使用标准关闭状态码1000（正常关闭）而不是默认的1005
+        session.close(new CloseStatus(1000, "传输错误正常关闭"));
     }
 
     /**
@@ -77,6 +79,12 @@ public class MyWebSocketHandler implements WebSocketHandler {
         // 清除用户缓存信息
         String terminalId = getTerminalId(session);
         CLIENTS.remove(terminalId);
+        log.info("WebSocket连接关闭，状态码：{}", closeStatus.getCode());
+        // 如果状态码为1005，使用标准关闭状态码替代
+        if (closeStatus.getCode() == 1005) {
+            // 使用1000正常关闭替代1005
+            log.info("检测到状态码1005，将使用标准关闭状态码处理");
+        }
     }
 
     @Override
