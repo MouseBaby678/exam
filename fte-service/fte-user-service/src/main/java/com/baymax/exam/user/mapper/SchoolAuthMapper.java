@@ -2,7 +2,9 @@ package com.baymax.exam.user.mapper;
 
 import com.baymax.exam.user.model.SchoolAuth;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -14,5 +16,13 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface SchoolAuthMapper extends BaseMapper<SchoolAuth> {
-
+    
+    /**
+     * 通过ID直接删除认证记录
+     * 
+     * @param authId 认证记录ID
+     * @return 删除的记录数
+     */
+    @Delete("DELETE FROM es_school_auth WHERE id = #{authId}")
+    int deleteAuthById(@Param("authId") Integer authId);
 }

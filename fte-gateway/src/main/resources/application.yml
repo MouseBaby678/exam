@@ -42,7 +42,7 @@ spring:
 springdoc:
   swagger-ui:
     use-root-path: true
-    path: scholl
+    path: school
 secure:
   ignore:
     urls: #配置白名单路径
@@ -55,5 +55,6 @@ secure:
       - "/*/*.png"
       - "/*/*.ico"
       - "/webjars/**"
+      - "/school/**"
       - "/*/oauth/token/**"
 

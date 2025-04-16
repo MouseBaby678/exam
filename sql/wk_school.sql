@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : Baymax
+ Source Server         : MySQL
  Source Server Type    : MySQL
- Source Server Version : 50726
+ Source Server Version : 80035 (8.0.35)
  Source Host           : localhost:3306
  Source Schema         : wk_school
 
  Target Server Type    : MySQL
- Target Server Version : 50726
+ Target Server Version : 80035 (8.0.35)
  File Encoding         : 65001
 
- Date: 14/03/2023 16:37:45
+ Date: 16/04/2025 20:18:24
 */
 
 SET NAMES utf8mb4;
@@ -22,18 +22,18 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `ec_classes`;
 CREATE TABLE `ec_classes`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '班级名称',
-  `course_id` int(11) UNSIGNED NOT NULL COMMENT '课程id',
-  `teacher_id` int(11) NOT NULL COMMENT '老师id:为了方便查找',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL COMMENT '班级名称',
+  `course_id` int UNSIGNED NOT NULL COMMENT '课程id',
+  `teacher_id` int NOT NULL COMMENT '老师id:为了方便查找',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `course_id`(`course_id`) USING BTREE,
-  INDEX `teacher_id`(`teacher_id`) USING BTREE,
+  INDEX `course_id`(`course_id` ASC) USING BTREE,
+  INDEX `teacher_id`(`teacher_id` ASC) USING BTREE,
   CONSTRAINT `ec_classes_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `ec_courses` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `ec_classes_ibfk_2` FOREIGN KEY (`teacher_id`) REFERENCES `es_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ec_classes
@@ -64,19 +64,19 @@ INSERT INTO `ec_classes` VALUES (26, '演示班级', 17, 10, '2023-02-22 16:37:1
 -- ----------------------------
 DROP TABLE IF EXISTS `ec_courses`;
 CREATE TABLE `ec_courses`  (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '课程名称',
-  `cover` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '课程封面',
-  `introduce` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '课程介绍',
-  `is_public` tinyint(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否公开:0：不公开（邀请码）,1公开（搜索）',
-  `status` tinyint(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '课程状态:0:正常，1：结课',
-  `user_id` int(11) NOT NULL COMMENT '创建者',
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL COMMENT '课程名称',
+  `cover` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL COMMENT '课程封面',
+  `introduce` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL COMMENT '课程介绍',
+  `is_public` tinyint UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否公开:0：不公开（邀请码）,1公开（搜索）',
+  `status` tinyint UNSIGNED NOT NULL DEFAULT 0 COMMENT '课程状态:0:正常，1：结课',
+  `user_id` int NOT NULL COMMENT '创建者',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `user_id`(`user_id`) USING BTREE,
+  INDEX `user_id`(`user_id` ASC) USING BTREE,
   CONSTRAINT `ec_courses_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `es_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '课程信息' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '课程信息' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ec_courses
@@ -104,17 +104,17 @@ INSERT INTO `ec_courses` VALUES (17, '演示课程', '/10/course/63f56be28690d65
 -- ----------------------------
 DROP TABLE IF EXISTS `ec_join_class`;
 CREATE TABLE `ec_join_class`  (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `class_id` int(11) NOT NULL COMMENT '课程id',
-  `student_id` int(11) NOT NULL COMMENT '学生id',
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `class_id` int NOT NULL COMMENT '课程id',
+  `student_id` int NOT NULL COMMENT '学生id',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`, `class_id`, `student_id`) USING BTREE,
-  INDEX `student_id`(`student_id`) USING BTREE,
-  INDEX `class_id`(`class_id`) USING BTREE,
+  INDEX `student_id`(`student_id` ASC) USING BTREE,
+  INDEX `class_id`(`class_id` ASC) USING BTREE,
   CONSTRAINT `ec_join_class_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `es_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `ec_join_class_ibfk_2` FOREIGN KEY (`class_id`) REFERENCES `ec_classes` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 361 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 361 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ec_join_class
@@ -291,39 +291,19 @@ INSERT INTO `ec_join_class` VALUES (359, 26, 10, '2023-02-22 18:08:46', '2023-02
 INSERT INTO `ec_join_class` VALUES (360, 12, 14, '2023-02-28 10:10:38', '2023-02-28 10:10:38');
 
 -- ----------------------------
--- Table structure for es_login_manger
--- ----------------------------
-DROP TABLE IF EXISTS `es_login_manger`;
-CREATE TABLE `es_login_manger`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `login_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '登录类型',
-  `login_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '登录名',
-  `enable` timestamp NULL DEFAULT NULL COMMENT '是否启用',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '登录表' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of es_login_manger
--- ----------------------------
-INSERT INTO `es_login_manger` VALUES (2, 116, 'gitee', '7350424', NULL, NULL, NULL);
-
--- ----------------------------
 -- Table structure for es_school
 -- ----------------------------
 DROP TABLE IF EXISTS `es_school`;
 CREATE TABLE `es_school`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `logo` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '学校名称',
-  `site` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '学校域名',
-  `introduce` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '学校介绍',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `logo` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL COMMENT '学校名称',
+  `site` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL COMMENT '学校域名',
+  `introduce` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL COMMENT '学校介绍',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '学校信息' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '学校信息' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of es_school
@@ -335,40 +315,41 @@ INSERT INTO `es_school` VALUES (1, NULL, '安徽科技学院', '        \r\n    
 -- ----------------------------
 DROP TABLE IF EXISTS `es_school_auth`;
 CREATE TABLE `es_school_auth`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL COMMENT '用户id',
-  `student_id` int(11) NOT NULL COMMENT '学生id',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL COMMENT '用户id',
+  `student_id` int NOT NULL COMMENT '学生id',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `status` tinyint NULL DEFAULT 1 COMMENT '认证状态：1-有效，0-无效',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `user_id`(`user_id`) USING BTREE,
-  INDEX `student_id`(`student_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '学生认证表' ROW_FORMAT = Dynamic;
+  INDEX `user_id`(`user_id` ASC) USING BTREE,
+  INDEX `student_id`(`student_id` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '学生认证表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of es_school_auth
 -- ----------------------------
-INSERT INTO `es_school_auth` VALUES (1, 10, 3, '2022-12-14 08:49:43', '2022-12-14 08:49:43');
+INSERT INTO `es_school_auth` VALUES (1, 10, 3, '2022-12-14 08:49:43', '2022-12-14 08:49:43', 1);
 
 -- ----------------------------
 -- Table structure for es_school_department
 -- ----------------------------
 DROP TABLE IF EXISTS `es_school_department`;
 CREATE TABLE `es_school_department`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `logo` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT 'logo',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '班级名称/部门',
-  `parent_id` int(11) NULL DEFAULT NULL COMMENT '上级部门',
-  `leader_id` int(11) NOT NULL COMMENT '辅导员/部门管理',
-  `school_id` int(11) NOT NULL COMMENT '学校id',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `logo` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT NULL COMMENT 'logo',
+  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL COMMENT '班级名称/部门',
+  `parent_id` int NULL DEFAULT NULL COMMENT '上级部门',
+  `leader_id` int NOT NULL COMMENT '辅导员/部门管理',
+  `school_id` int NOT NULL COMMENT '学校id',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `leader_id`(`leader_id`) USING BTREE,
-  INDEX `school_id`(`school_id`) USING BTREE,
+  INDEX `leader_id`(`leader_id` ASC) USING BTREE,
+  INDEX `school_id`(`school_id` ASC) USING BTREE,
   CONSTRAINT `es_school_department_ibfk_2` FOREIGN KEY (`leader_id`) REFERENCES `es_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `es_school_department_ibfk_3` FOREIGN KEY (`school_id`) REFERENCES `es_school` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '学习部门信息' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '学习部门信息' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of es_school_department
@@ -380,56 +361,58 @@ INSERT INTO `es_school_department` VALUES (2, NULL, '计算机专升本', NULL, 
 -- ----------------------------
 DROP TABLE IF EXISTS `es_school_student`;
 CREATE TABLE `es_school_student`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `job_no` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '工号/学号',
-  `real_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '姓名',
-  `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
-  `phone` varchar(11) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
-  `department_id` int(11) NOT NULL COMMENT '部门/班级',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `job_no` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL COMMENT '工号/学号',
+  `real_name` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL COMMENT '姓名',
+  `email` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT NULL,
+  `phone` varchar(11) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT NULL,
+  `department_id` int NOT NULL COMMENT '部门/班级',
+  `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '状态，1-有效，0-无效',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `department_id`(`department_id`) USING BTREE,
+  INDEX `department_id`(`department_id` ASC) USING BTREE,
   CONSTRAINT `es_school_student_ibfk_1` FOREIGN KEY (`department_id`) REFERENCES `es_school_department` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '学校用户认证信息' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '学校用户认证信息' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of es_school_student
 -- ----------------------------
-INSERT INTO `es_school_student` VALUES (3, '270123456', '**家', NULL, NULL, 2, '2022-12-03 19:11:18', '2022-12-18 13:55:13');
+INSERT INTO `es_school_student` VALUES (3, '270123456', '**家', NULL, NULL, 2, 1, '2022-12-03 19:11:18', '2022-12-18 13:55:13');
+INSERT INTO `es_school_student` VALUES (4, '123', '张三', NULL, NULL, 2, 1, '2025-04-16 19:42:39', '2025-04-16 19:42:39');
 
 -- ----------------------------
 -- Table structure for es_user
 -- ----------------------------
 DROP TABLE IF EXISTS `es_user`;
 CREATE TABLE `es_user`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '用户名',
-  `nickname` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '别名',
-  `password` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '密码',
-  `picture` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '头像',
-  `bg_picture` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '背景图像',
-  `autograph` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '签名',
-  `phone` char(11) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '手机号',
-  `email` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '邮箱',
-  `auth_id` int(11) NULL DEFAULT NULL COMMENT '认证id',
-  `role` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '0' COMMENT '0：学生 1：教师',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL COMMENT '用户名',
+  `nickname` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL COMMENT '别名',
+  `password` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL COMMENT '密码',
+  `picture` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT NULL COMMENT '头像',
+  `bg_picture` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT NULL COMMENT '背景图像',
+  `autograph` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT NULL COMMENT '签名',
+  `phone` char(11) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT NULL COMMENT '手机号',
+  `email` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT NULL COMMENT '邮箱',
+  `auth_id` int NULL DEFAULT NULL COMMENT '认证id',
+  `role` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL DEFAULT '0' COMMENT '0：学生 1：教师',
   `enable` tinyint(1) NOT NULL DEFAULT 1 COMMENT '状态，0：启用，>0:封禁',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`, `username`) USING BTREE,
-  UNIQUE INDEX `email`(`email`) USING BTREE,
-  INDEX `id`(`id`) USING BTREE,
-  INDEX `auth_id`(`auth_id`) USING BTREE,
+  UNIQUE INDEX `email`(`email` ASC) USING BTREE,
+  INDEX `id`(`id` ASC) USING BTREE,
+  INDEX `auth_id`(`auth_id` ASC) USING BTREE,
   CONSTRAINT `es_user_ibfk_1` FOREIGN KEY (`auth_id`) REFERENCES `es_school_auth` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 117 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '用户信息' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 118 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '用户信息' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of es_user
 -- ----------------------------
 INSERT INTO `es_user` VALUES (8, '马明111', '刘丽', '$2a$10$XQM1Qu/zNScKUBRmhJYvHO4hZztDiZbJhFG/FE0J5y4nO3iiBnhki', NULL, NULL, NULL, NULL, 'r.dfs@qq.com', NULL, '0', 1, '2022-10-08 18:40:43', '2022-12-07 17:02:00');
 INSERT INTO `es_user` VALUES (9, '马明-马明', '刘丽1111', '$2a$10$Qnu0vwIelSnyo1P4L3RBnufZG9EWmcFo0bwHwA4O5NFuWHvl3sZXy', NULL, NULL, NULL, NULL, 'r.nmhyi@qq.com', NULL, '0', 1, '2022-10-09 15:38:04', '2022-12-07 17:02:00');
-INSERT INTO `es_user` VALUES (10, 'baymax', 'baymax', '$2a$10$EgY/iP1EGtX80SJpM9qUYuX7IAb1UOwIH596o.FZaOQ5wF5vDRPyK', '/10/avatar/63e0592e0747b047cea866da.jpg', NULL, NULL, NULL, '123456@qq.sjj', 1, '0', 1, '2022-10-11 14:58:23', '2023-02-06 09:34:38');
+INSERT INTO `es_user` VALUES (10, 'baymax', 'baymax', '$2a$10$EgY/iP1EGtX80SJpM9qUYuX7IAb1UOwIH596o.FZaOQ5wF5vDRPyK', 'http://localhost:10030/test/file/10/avatar/67ff54b32c81f68ffd0fe2fc.jpg', NULL, NULL, NULL, '123456@qq.sjj', 1, '0', 1, '2022-10-11 14:58:23', '2025-04-16 14:56:51');
 INSERT INTO `es_user` VALUES (11, '薛军=薛军', '熊刚111', '$2a$10$lVUGnxb39BEOZHAffDJ90.5UITvj9tPme/XUxjorfiNoKHDGA1UTe', '/10/avatar/63e0592e0747b047cea866da.jpg', NULL, NULL, NULL, 'd.lsmgpa@qq.com', NULL, '0', 1, '2022-10-12 19:32:17', '2023-02-22 20:12:44');
 INSERT INTO `es_user` VALUES (12, 'testbaymax', 'testbaymax', '$2a$10$4TZQDF.e0yozNroyOstsquKM0J56lH1rxYt7g.qkkW/3Vxiij3rcy', NULL, NULL, NULL, NULL, 'n.yxmj@qq.com', NULL, '0', 1, '2022-10-19 20:38:17', '2022-12-07 17:02:00');
 INSERT INTO `es_user` VALUES (13, 'Steven', 'Michael Wilson', '$2a$10$EgY/iP1EGtX80SJpM9qUYuX7IAb1UOwIH596o.FZaOQ5wF5vDRPyK', 'http://dummyimage.com/200x200/f28379&text=Elizabeth Thomas', NULL, NULL, NULL, 'h.rlnpwclmj@nampbc.pa', NULL, '0', 1, '2022-12-03 19:58:55', '2023-02-02 11:09:05');
@@ -536,6 +519,7 @@ INSERT INTO `es_user` VALUES (113, 'baymax1', '你好中国啊', '$2a$10$mi1/TU3
 INSERT INTO `es_user` VALUES (114, 'GITEE7350424pn82', 'baymaxsjj', '$2a$10$IxfTfoZoGx9sAUEqdcLaZ.OzmA8q3QbqALlEqCGlQ8WLOSH853MJm', NULL, NULL, NULL, NULL, NULL, NULL, '0', 1, '2023-02-06 19:29:53', '2023-02-06 19:29:53');
 INSERT INTO `es_user` VALUES (115, 'GITEE7350424ul8k', 'baymaxsjj', '$2a$10$mVAKr7VA3XS.RicRGl0aEuezd8ApxgMZGUxMDvgG2J3pB1DG6i0lm', NULL, NULL, NULL, NULL, NULL, NULL, '0', 1, '2023-02-06 19:30:18', '2023-02-06 19:30:18');
 INSERT INTO `es_user` VALUES (116, 'GITEE_7350424_0ddo', 'baymaxsjj', '$2a$10$17DBXX7KQi7niuzrPgujuegh3XN2644qzTItruhNPbb9UB.4lqGWC', 'https://portrait.gitee.com/uploads/avatars/user/2450/7350424_baymaxsjj_1608168346.png', NULL, NULL, NULL, NULL, NULL, '0', 1, '2023-02-06 19:35:22', '2023-02-06 19:35:22');
+INSERT INTO `es_user` VALUES (117, 'mouse', 'mouse', '$2a$10$C49K8mOaoH0WwWG.Tahd5uTF/FjlrDp1v5jaFiYzkOguixLgZpixC', NULL, NULL, NULL, NULL, '2115395065@qq.com', NULL, '0', 1, '2025-04-16 14:57:21', '2025-04-16 20:14:53');
 
 -- ----------------------------
 -- View structure for es_user_auth_info

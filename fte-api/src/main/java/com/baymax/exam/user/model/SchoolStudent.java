@@ -25,7 +25,7 @@ public class SchoolStudent implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-      @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     @Schema(description = "工号/学号")
@@ -34,14 +34,21 @@ public class SchoolStudent implements Serializable {
     @Schema(description = "姓名")
     private String realName;
 
+    @Schema(description = "邮箱")
     private String email;
 
+    @Schema(description = "手机号")
     private String phone;
 
     @Schema(description = "部门/班级")
     private Integer departmentId;
-
+    
+    @Schema(description = "状态，1-有效，0-无效")
+    private Integer status;
+    
+    @Schema(description = "创建时间")
     private LocalDateTime createdAt;
 
+    @Schema(description = "更新时间")
     private LocalDateTime updatedAt;
 }

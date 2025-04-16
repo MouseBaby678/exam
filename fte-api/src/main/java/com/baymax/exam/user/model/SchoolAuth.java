@@ -25,7 +25,7 @@ public class SchoolAuth implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-      @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     @Schema(description = "用户id")
@@ -34,7 +34,12 @@ public class SchoolAuth implements Serializable {
     @Schema(description = "学生id")
     private Integer studentId;
 
+    @Schema(description = "认证状态，1-有效，0-无效")
+    private Integer status;
+    
+    @Schema(description = "创建时间")
     private LocalDateTime createdAt;
 
+    @Schema(description = "更新时间")
     private LocalDateTime updatedAt;
 }

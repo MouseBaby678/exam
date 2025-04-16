@@ -20,6 +20,8 @@ import com.baymax.exam.user.service.impl.UserServiceImpl;
 import com.baymax.exam.web.annotation.Inner;
 import com.baymax.exam.web.utils.UserAuthUtil;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,4 +107,28 @@ public class UserController {
         return Result.success();
     }
 
+    /**
+     * 清除用户的认证ID（用于解决外键约束问题）
+     * @param userId 用户ID
+     * @return 处理结果
+     */
+    @PostMapping("/clear-auth/{userId}")
+    @Operation(summary = "清除用户的认证ID", description = "用于解决解除认证时的外键约束问题")
+    @Parameter(name = "userId", description = "用户ID", in = ParameterIn.PATH)
+    public Result<String> clearUserAuthId(@PathVariable Integer userId) {
+        User user = userService.getById(userId);
+        if (user == null) {
+            return Result.msgInfo("用户不存在");
+        }
+        
+        // 清除用户认证ID
+        user.setAuthId(null);
+        boolean updated = userService.updateById(user);
+        
+        if (updated) {
+            return Result.success("操作成功");
+        } else {
+            return Result.msgInfo("操作失败，请稍后重试");
+        }
+    }
 }
