@@ -1,15 +1,12 @@
 package com.baymax.exam.user.service.impl;
 
 import cn.hutool.core.util.RandomUtil;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baymax.exam.common.core.base.RedisKeyConstants;
 import com.baymax.exam.common.core.exception.ResultException;
 import com.baymax.exam.common.core.result.Result;
 import com.baymax.exam.common.redis.utils.RedisUtils;
 import com.baymax.exam.mails.feign.MailsServiceClient;
 import com.baymax.exam.mails.model.Mails;
-import com.baymax.exam.user.mapper.LoginMangerMapper;
-import com.baymax.exam.user.model.LoginManger;
 import com.baymax.exam.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,7 +25,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Service
 @Slf4j
-public class LoginServiceImpl extends ServiceImpl<LoginMangerMapper, LoginManger> {
+public class LoginServiceImpl {
     @Autowired
     UserServiceImpl userService;
     @Autowired
