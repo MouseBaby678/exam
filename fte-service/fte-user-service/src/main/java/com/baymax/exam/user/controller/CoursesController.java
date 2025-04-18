@@ -12,6 +12,7 @@ import com.baymax.exam.user.model.Courses;
 import com.baymax.exam.user.model.JoinClass;
 import com.baymax.exam.user.model.User;
 import com.baymax.exam.user.service.impl.CoursesServiceImpl;
+import com.baymax.exam.user.service.impl.CoursesCoverGeneratorService;
 import com.baymax.exam.user.service.impl.JoinClassServiceImpl;
 import com.baymax.exam.user.vo.CourseInfoVo;
 import com.baymax.exam.web.annotation.Inner;
@@ -24,6 +25,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -47,6 +50,9 @@ public class CoursesController {
     CoursesMapper coursesMapper;
     @Autowired
     FileDetailClient fileDetailClient;
+    @Autowired
+    CoursesCoverGeneratorService coursesCoverGeneratorService;
+    
     @Operation(summary = "创建/更新课程")
     @PostMapping("/update")
     public Result add(@RequestBody @Validated Courses courses) {
@@ -73,6 +79,19 @@ public class CoursesController {
         Result<String> result = fileDetailClient.uploadImage(file, "/"+userId+"/course/", null, "course");
         String url = result.getResultDate();
         return Result.success("上传成功",url);
+    }
+
+    @Operation(summary = "生成课程封面")
+    @PostMapping("/generate-cover")
+    Result<String> generateCourseCover(@RequestBody Map<String, String> params) throws ResultException {
+        String courseName = params.get("courseName");
+        if(courseName == null || courseName.trim().isEmpty()) {
+            return Result.failed(ResultCode.PARAM_ERROR, "课程名称不能为空");
+        }
+        
+        // 调用封面生成服务
+        String coverUrl = coursesCoverGeneratorService.generateCourseCover(courseName);
+        return Result.success("生成成功", coverUrl);
     }
 
     @Operation(summary = "获取课程课程")
