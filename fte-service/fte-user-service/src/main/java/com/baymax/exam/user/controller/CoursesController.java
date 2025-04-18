@@ -47,7 +47,7 @@ public class CoursesController {
     CoursesMapper coursesMapper;
     @Autowired
     FileDetailClient fileDetailClient;
-    @Operation(summary = "创建课程")
+    @Operation(summary = "创建/更新课程")
     @PostMapping("/update")
     public Result add(@RequestBody @Validated Courses courses) {
         //更新判断
