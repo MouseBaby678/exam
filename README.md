@@ -1,6 +1,6 @@
-# 为考-考试平台
+# 智考-考试平台
 
-毕业设计：为考-考试系统，后端采用`Spring Cloud`，前端采用`Vue` 3，存储采用`Mysql`，缓存采用`Redis`。完成基本的考试功能。完成了遗传算法自动组卷、文本批量导入题库，邀请码加入课程、数据可视化等一系列前后端功能。悄悄的说一下，如果你觉得本项目还凑合，可以给个`Star` q(≧▽≦q)
+毕业设计：智考-考试系统，后端采用`Spring Cloud`，前端采用`Vue` 3，存储采用`Mysql`，缓存采用`Redis`。完成基本的考试功能。完成了遗传算法自动组卷、文本批量导入题库，邀请码加入课程、数据可视化等一系列前后端功能。悄悄的说一下，如果你觉得本项目还凑合，可以给个`Star` q(≧▽≦q)
 
 ## 说明
 
@@ -14,13 +14,13 @@
 
 ###  项目地址
 
-#### 为考-考试平台-前端：
+#### 智考-考试平台-前端：
 
 Gitee：[https://gitee.com/for-the-exam/exam-web](https://gitee.com/for-the-exam/exam-web)
 
 Github：[https://github.com/baymaxsjj/exam-web](https://github.com/baymaxsjj/exam-web)
 
-#### 为考-考试平台-后端：
+#### 智考-考试平台-后端：
 
 Gitee：[https://gitee.com/for-the-exam/exam](https://gitee.com/for-the-exam/exam)
 
@@ -72,12 +72,12 @@ Github：[https://gitee.com/baymaxsjj/sqlmock](https://gitee.com/baymaxsjj/sqlmo
 
 ### 功能图
 
-![为考考试系统-功能图](./images/为考-在线考试平台.png)
+![智考考试系统-功能图](./images/为考-在线考试平台.png)
 
 ### E-R图
 
 不知道画的对不对，记得上数据库实训的时候，给我那个博客画的E-R图，结果被老师训了一顿。到现在想起还有点害怕＞︿＜
-![为考考试系统-E-R图](./images/系统E-R图.jpg)
+![智考考试系统-E-R图](./images/系统E-R图.jpg)
 
 ### 完成功能
 
@@ -95,7 +95,7 @@ Github：[https://gitee.com/baymaxsjj/sqlmock](https://gitee.com/baymaxsjj/sqlmo
 - [x] 考试数据导出
 - [x] 考生数据统计分析
 
-# 为考-前端
+# 智考-前端
 
 ## 配置说明
 
@@ -131,7 +131,7 @@ pnpm run dev
 pnpm run build 
 ```
 
-# 为考后端
+# 智考后端
 
 ## 功能说明
 
