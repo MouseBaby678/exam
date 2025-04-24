@@ -49,51 +49,84 @@ public class Population {
                 //预分配题型
                 int surplusNumber=rule.getTotalNumber();
                 List<Question> list=new ArrayList<>();
-                Set<QuestionTypeEnum> surplusKeys = new HashSet<>(percentage.keySet());
+                Set<QuestionTypeEnum> surplusKeys = new HashSet<>();
                 Map<QuestionTypeEnum,Integer> assignmentNumber=new HashMap<>();
-                for (QuestionTypeEnum key:percentage.keySet()) {
-                    float percent=percentage.get(key);
-                    //预期题数
-                    int expectNumber= (int) (percent*rule.getTotalNumber());
-                    //试卷题数
-                    int  actualNumber=0;
-                    if(questionGroups.get(key)!=null){
-                        actualNumber=questionGroups.get(key).size();
-                    }
-                    //不够分配
-                    if(expectNumber>actualNumber){
-                        surplusKeys.remove(key);
-                        assignmentNumber.put(key,actualNumber);
-                        surplusNumber-=actualNumber;
-                    }else{
-                        assignmentNumber.put(key,expectNumber);
-                        surplusNumber-=expectNumber;
+                
+                // 先过滤掉题库中不存在的题型
+                for (QuestionTypeEnum key : percentage.keySet()) {
+                    if (questionGroups.containsKey(key) && questionGroups.get(key) != null && !questionGroups.get(key).isEmpty()) {
+                        surplusKeys.add(key);
+                    } else {
+                        // 将不存在的题型设置为0题
+                        assignmentNumber.put(key, 0);
                     }
                 }
+                
+                // 如果过滤后没有可用题型，随机选择可用题型避免异常
+                if (surplusKeys.isEmpty() && !questionGroups.isEmpty()) {
+                    QuestionTypeEnum randomType = questionGroups.keySet().iterator().next();
+                    surplusKeys.add(randomType);
+                    percentage.put(randomType, 1.0f);
+                }
+                
+                for (QuestionTypeEnum key : surplusKeys) {
+                    float percent = percentage.getOrDefault(key, 0f);
+                    //预期题数
+                    int expectNumber = (int) (percent * rule.getTotalNumber());
+                    //试卷题数
+                    int actualNumber = questionGroups.get(key).size();
+                    //不够分配
+                    if(expectNumber > actualNumber){
+                        assignmentNumber.put(key, actualNumber);
+                        surplusNumber -= actualNumber;
+                    } else {
+                        assignmentNumber.put(key, expectNumber);
+                        surplusNumber -= expectNumber;
+                    }
+                }
+                
                 //对充足的题型，进行平均分配
                 Iterator<QuestionTypeEnum> iterator;
                 QuestionTypeEnum key;
-                int  actualNumber,realNumber;
-                while (surplusNumber>0){
-                    iterator = surplusKeys.iterator();
-                    while (iterator.hasNext()){
-                        key = iterator.next();
-                        actualNumber=questionGroups.get(key).size();
-                        realNumber=assignmentNumber.get(key);
-                        if(realNumber<actualNumber){
-                            surplusNumber--;
-                            assignmentNumber.put(key,++realNumber);
-                        }else {
-                            iterator.remove();
+                int actualNumber, realNumber;
+                
+                // 确保有可分配的题型再继续分配
+                if (!surplusKeys.isEmpty()) {
+                    while (surplusNumber > 0) {
+                        iterator = new HashSet<>(surplusKeys).iterator();
+                        boolean anyAssigned = false;
+                        
+                        while (iterator.hasNext()) {
+                            key = iterator.next();
+                            actualNumber = questionGroups.get(key).size();
+                            realNumber = assignmentNumber.getOrDefault(key, 0);
+                            
+                            if (realNumber < actualNumber) {
+                                surplusNumber--;
+                                assignmentNumber.put(key, ++realNumber);
+                                anyAssigned = true;
+                            } else {
+                                surplusKeys.remove(key);
+                            }
+                            
+                            if (surplusNumber == 0) {
+                                break;
+                            }
                         }
-                        if(surplusNumber==0){
+                        
+                        // 如果无法继续分配，退出循环避免死循环
+                        if (!anyAssigned || surplusKeys.isEmpty()) {
                             break;
                         }
                     }
                 }
-                assignmentNumber.forEach((type,number)->{
-                    if(number>0){
-                        finalPaper.getQuestionList().addAll(questionGroups.get(type).stream().limit(number).toList());
+                
+                assignmentNumber.forEach((type, number) -> {
+                    if (number > 0 && questionGroups.containsKey(type)) {
+                        List<Question> typeQuestions = questionGroups.get(type);
+                        if (typeQuestions != null && !typeQuestions.isEmpty()) {
+                            finalPaper.getQuestionList().addAll(typeQuestions.stream().limit(number).toList());
+                        }
                     }
                 });
             }else{

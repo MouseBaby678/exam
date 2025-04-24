@@ -7,8 +7,11 @@ import com.baymax.exam.center.enums.QuestionTypeEnum;
 import com.baymax.exam.center.model.Question;
 import com.baymax.exam.center.vo.AutomaticPaperRuleVo;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -37,16 +40,60 @@ public class GeneratePaperService {
     }
 
     public Paper generatePaper() {
-        Population population = new Population(config.getPopulationSize(),questions, rule);
-        // 迭代计数器
-        int count = 0;
-        Paper bastPaper;
-        do{
-            count++;
-            population = evolvePopulation(population);
-            bastPaper=population.getFitness();
-        }while (count < config.getMaxGeneration() && bastPaper.getAdaptationDegree() < config.getTargetExpand());
-        return population.getFitness();
+        // 检查题库中是否有题目
+        if (questions.isEmpty()) {
+            // 返回一个空的试卷对象
+            Paper emptyPaper = new Paper();
+            emptyPaper.setAdaptationDegree(0);
+            emptyPaper.setDifficulty(0);
+            emptyPaper.setTagCoverage(rule.getTags());
+            return emptyPaper;
+        }
+        
+        // 校验题型是否存在
+        if (rule.getQuestionType() != null && !rule.getQuestionType().isEmpty()) {
+            // 获取所有题目的题型
+            Set<QuestionTypeEnum> availableTypes = questions.stream()
+                    .map(Question::getType)
+                    .collect(Collectors.toSet());
+                    
+            // 过滤出题库中存在的题型
+            List<QuestionTypeEnum> validTypes = rule.getQuestionType().stream()
+                    .filter(availableTypes::contains)
+                    .collect(Collectors.toList());
+                    
+            // 如果没有有效题型，但有题目，使用题库中的题型
+            if (validTypes.isEmpty() && !availableTypes.isEmpty()) {
+                rule.setQuestionType(new ArrayList<>(availableTypes));
+            } else if (!validTypes.isEmpty()) {
+                rule.setQuestionType(validTypes);
+            }
+        }
+        
+        // 创建种群
+        try {
+            Population population = new Population(config.getPopulationSize(), questions, rule);
+            // 迭代计数器
+            int count = 0;
+            Paper bastPaper;
+            do {
+                count++;
+                population = evolvePopulation(population);
+                bastPaper = population.getFitness();
+            } while (count < config.getMaxGeneration() && bastPaper.getAdaptationDegree() < config.getTargetExpand());
+            return population.getFitness();
+        } catch (Exception e) {
+            // 发生异常时，返回一个基本试卷（随机选取题目）
+            Paper fallbackPaper = new Paper();
+            int limit = Math.min(rule.getTotalNumber(), questions.size());
+            Collections.shuffle(questions);
+            for (int i = 0; i < limit; i++) {
+                fallbackPaper.addQuestion(questions.get(i));
+            }
+            fallbackPaper.setTagCoverage(rule.getTags());
+            fallbackPaper.setAdaptationDegree(rule, AutomaticPaperConfig.TAG_WEIGHT, AutomaticPaperConfig.DIFFICULTY_WEIGHT);
+            return fallbackPaper;
+        }
     }
 
     private Population evolvePopulation(Population population) {
