@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -107,13 +108,34 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         LambdaQueryWrapper<Question> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(Question::getTeacherId,userId);
         queryWrapper.eq(Question::getCourseId,courseId);
+        
         if(tagList!=null&&!tagList.isEmpty()){
-            if(tagList.contains(0)){
-                queryWrapper.or().isNotNull(Question::getType);
-                tagList.remove(0);
+            boolean hasRootTag = tagList.contains(0);
+            
+            // 创建一个新的集合以避免修改原始集合
+            Collection<Integer> filteredTagList = new ArrayList<>(tagList);
+            if(hasRootTag) {
+                filteredTagList.remove(0);
             }
-            queryWrapper.in(Question::getTagId,tagList);
+
+            if(hasRootTag) {
+                if(filteredTagList.isEmpty()) {
+                    // 只查询根目录下的题目（tag_id为空的题目）
+                    queryWrapper.isNull(Question::getTagId);
+                } else {
+                    // 查询根目录和指定tag_id的题目
+                    queryWrapper.and(wrapper -> 
+                        wrapper.isNull(Question::getTagId)
+                               .or()
+                               .in(Question::getTagId, filteredTagList)
+                    );
+                }
+            } else if(!filteredTagList.isEmpty()) {
+                // 只查询指定tag_id的题目
+                queryWrapper.in(Question::getTagId, filteredTagList);
+            }
         }
+        
         if(typeList!=null&&!typeList.isEmpty()){
             queryWrapper.in(Question::getType,typeList);
         }
