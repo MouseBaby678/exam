@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baymax.exam.center.enums.DefaultQuestionRuleEnum;
+import com.baymax.exam.center.enums.QuestionTypeEnum;
+import com.baymax.exam.center.enums.QuestionVisibleEnum;
 import com.baymax.exam.center.model.Question;
 import com.baymax.exam.center.service.impl.QuestionServiceImpl;
 import com.baymax.exam.center.utils.ParseQuestionText;
@@ -75,14 +77,86 @@ public class QuestionController {
             return Result.failed(ResultCode.PARAM_ERROR);
         }
         List<QuestionInfoVo> list=batchQuestion.getQuestionInfos();
+        Set<Question> configSet = batchQuestion.getQuestionConfig();
         List<String> result=new ArrayList<>();
+        
         list.stream().forEach(i->{
             i.setTeacherId(userId);
             i.setTagId(batchQuestion.getTagId());
             i.setCourseId(batchQuestion.getCourseId());
-            result.add( questionService.addQuestion(i));
+            
+            // 应用题目配置
+            if(configSet != null && !configSet.isEmpty()) {
+                applyQuestionConfig(i, configSet);
+            }
+            
+            result.add(questionService.addQuestion(i));
         });
         return Result.success(result);
+    }
+    
+    /**
+     * 将题目配置应用到题目上
+     * @param questionInfo 题目信息
+     * @param configSet 配置集合
+     */
+    private void applyQuestionConfig(QuestionInfoVo questionInfo, Set<Question> configSet) {
+        // 根据题目类型查找匹配的配置
+        String questionType = questionInfo.getType().name();
+        
+        for (Question config : configSet) {
+            // 检查类型是否匹配（前端可能发送的是枚举名称字符串，而不是枚举对象）
+            Object configType = config.getType();
+            boolean typeMatches = false;
+            
+            if (configType instanceof String && questionType.equals(configType)) {
+                typeMatches = true;
+            } else if (configType instanceof QuestionTypeEnum && 
+                      questionType.equals(((QuestionTypeEnum)configType).name())) {
+                typeMatches = true;
+            }
+            
+            if (typeMatches) {
+                // 应用难度设置
+                if(config.getDifficulty() != null) {
+                    questionInfo.setDifficulty(config.getDifficulty());
+                }
+                
+                // 应用分值设置
+                if(config.getScore() != null) {
+                    questionInfo.setScore(config.getScore());
+                }
+                
+                // 应用可见状态设置
+                Object visibleStatus = config.getIsPublic();
+                if(visibleStatus != null) {
+                    if (visibleStatus instanceof String) {
+                        questionInfo.setIsPublic(convertVisibleStatus((String)visibleStatus));
+                    } else if (visibleStatus instanceof QuestionVisibleEnum) {
+                        questionInfo.setIsPublic((QuestionVisibleEnum)visibleStatus);
+                    }
+                }
+                
+                break;
+            }
+        }
+    }
+    
+    /**
+     * 转换可见状态
+     * 前端传递的是字符串表示的枚举名称（如"self"、"course"、"overt"），
+     * 需要转换为QuestionVisibleEnum枚举实例
+     * 
+     * @param visibleStatus 可见状态字符串
+     * @return QuestionVisibleEnum 枚举实例
+     */
+    private QuestionVisibleEnum convertVisibleStatus(String visibleStatus) {
+        try {
+            return QuestionVisibleEnum.valueOf(visibleStatus);
+        } catch (Exception e) {
+            // 默认设置为自己可见
+            return QuestionVisibleEnum.self;
+        }
     }
     @Operation(summary = "获取匹配题目规则")
     @GetMapping("/rules")
@@ -93,20 +167,29 @@ public class QuestionController {
     @Operation(summary = "解析题目文本")
     @PostMapping("/analyze")
     public Result analyze(@RequestBody @Validated ParseQuestionVo parseQuestionVo){
-        // TODO:还是后端呢？
-        ParseQuestionRules rule= DefaultQuestionRuleEnum.CHAOXING.getRule();
-        if(parseQuestionVo.getCustomRule()!=null){
-            rule= parseQuestionVo.getCustomRule();
-        }else if(parseQuestionVo.getDefaultRule()!=null){
-            rule = parseQuestionVo.getDefaultRule().getRule();
+        try {
+            // TODO:还是后端呢？
+            ParseQuestionRules rule= DefaultQuestionRuleEnum.CHAOXING.getRule();
+            if(parseQuestionVo.getCustomRule()!=null){
+                rule= parseQuestionVo.getCustomRule();
+            }else if(parseQuestionVo.getDefaultRule()!=null){
+                rule = parseQuestionVo.getDefaultRule().getRule();
+            }
+            //将富文本换行改成\n
+            String text= parseQuestionVo.getQuestionsText().replaceAll("<br\\/?>","\n");
+            //去除富文本最外层p
+            text=text.replaceAll("<p>|<\\/p>","");
+            log.info("题目文本",text);
+            log.info("题目文本"+text);
+            
+            List<QuestionInfoVo> parsedQuestions = ParseQuestionText.parse(text,rule);
+            log.info("解析结果数量: {}", parsedQuestions.size());
+            
+            return Result.success(parsedQuestions);
+        } catch (Exception e) {
+            log.error("解析题目时发生异常", e);
+            return Result.failed("解析题目失败: " + e.getMessage());
         }
-        //将富文本换行改成\n
-        String text= parseQuestionVo.getQuestionsText().replaceAll("<br\\/?>","\n");
-        //去除富文本最外层p
-        text=text.replaceAll("<p>|<\\/p>","");
-        log.info("题目文本",text);
-        log.info("题目文本"+text);
-        return Result.success( ParseQuestionText.parse(text,rule));
     }
 
     @Operation(summary = "更新题目")
@@ -186,5 +269,80 @@ public class QuestionController {
         }
         QuestionInfoVo questionInfo = questionService.questionInfo(questionId);
         return Result.success(questionInfo);
+    }
+    
+    @Operation(summary = "批量删除题目")
+    @PostMapping("/batchDelete")
+    public Result batchDelete(@RequestBody Map<String, List<Integer>> requestMap) {
+        List<Integer> questionIds = requestMap.get("questionIds");
+        if (questionIds == null || questionIds.isEmpty()) {
+            return Result.failed(ResultCode.PARAM_ERROR, "题目ID列表不能为空");
+        }
+        
+        Integer userId = UserAuthUtil.getUserId();
+        
+        // 检查所有题目是否都属于当前用户
+        List<Question> questions = questionService.listByIds(questionIds);
+        for (Question question : questions) {
+            if (question.getTeacherId() != userId) {
+                return Result.failed(ResultCode.PARAM_ERROR, "存在无权限操作的题目");
+            }
+        }
+        
+        // 执行批量删除
+        boolean success = questionService.removeByIds(questionIds);
+        if (success) {
+            return Result.msgSuccess("批量删除成功");
+        } else {
+            return Result.msgError("批量删除失败");
+        }
+    }
+    
+    @Operation(summary = "批量更新题目可见性")
+    @PostMapping("/batchUpdateVisibility")
+    public Result batchUpdateVisibility(@RequestBody Map<String, Object> requestMap) {
+        List<Integer> questionIds = (List<Integer>) requestMap.get("questionIds");
+        String visibility = (String) requestMap.get("visibility");
+        
+        if (questionIds == null || questionIds.isEmpty()) {
+            return Result.failed(ResultCode.PARAM_ERROR, "题目ID列表不能为空");
+        }
+        
+        if (visibility == null || visibility.isEmpty()) {
+            return Result.failed(ResultCode.PARAM_ERROR, "可见性参数不能为空");
+        }
+        
+        // 转换可见性参数
+        QuestionVisibleEnum visibleEnum;
+        try {
+            visibleEnum = QuestionVisibleEnum.valueOf(visibility);
+        } catch (IllegalArgumentException e) {
+            return Result.failed(ResultCode.PARAM_ERROR, "不支持的可见性类型");
+        }
+        
+        Integer userId = UserAuthUtil.getUserId();
+        
+        // 检查所有题目是否都属于当前用户
+        List<Question> questions = questionService.listByIds(questionIds);
+        for (Question question : questions) {
+            if (question.getTeacherId() != userId) {
+                return Result.failed(ResultCode.PARAM_ERROR, "存在无权限操作的题目");
+            }
+        }
+        
+        // 执行批量更新
+        boolean success = true;
+        for (Integer questionId : questionIds) {
+            Question question = new Question();
+            question.setId(questionId);
+            question.setIsPublic(visibleEnum);
+            success = success && questionService.updateById(question);
+        }
+        
+        if (success) {
+            return Result.msgSuccess("批量更新可见性成功");
+        } else {
+            return Result.msgError("批量更新可见性失败");
+        }
     }
 }
