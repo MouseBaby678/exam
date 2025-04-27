@@ -143,7 +143,7 @@ public class CoursesController {
         if("1".equals(status)){
             stu=1;
         }
-        IPage<CourseInfoVo> courseList = coursesService.getCourseList(UserAuthUtil.getUserId(),stu, isStudent, currentPage, 10 );
+        IPage<CourseInfoVo> courseList = coursesService.getCourseList(UserAuthUtil.getUserId(),stu, isStudent, currentPage, 12);
         return Result.success(PageResult.setResult(courseList));
     }
 
