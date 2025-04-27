@@ -7,8 +7,8 @@ import com.baymax.exam.user.model.UserAuthInfo;
 import lombok.Data;
 
 /**
- * @author ：Baymax
- * @date ：Created in 2022/12/1 20:26
+ * @author ：MouseBaby678
+ * @date ：Created in 2025/4/27 16:51
  * @description：学生行为
  * @modified By：
  * @version:

@@ -7,8 +7,8 @@ import lombok.Data;
 import java.util.Map;
 
 /**
- * @author ：Baymax
- * @date ：Created in 2023/2/2 14:38
+ * @author ：MouseBaby678
+ * @date ：Created in 2025/4/27 16:51
  * @description：vue 路由参数
  * @modified By：
  * @version:

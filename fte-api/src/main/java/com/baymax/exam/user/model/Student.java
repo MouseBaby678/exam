@@ -13,8 +13,8 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
- * @author ：Baymax
- * @date ：Created in 2022/12/13 21:43
+ * @author ：MouseBaby678
+ * @date ：Created in 2025/4/27 16:51
  * @description：学生信息
  * @modified By：
  * @version:

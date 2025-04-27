@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 /**
- * @author ：Baymax
- * @date ：Created in 2022/12/14 9:28
+ * @author ：MouseBaby678
+ * @date ：Created in 2025/4/27 16:51
  * @description：学生信息
  * @modified By：
  * @version:

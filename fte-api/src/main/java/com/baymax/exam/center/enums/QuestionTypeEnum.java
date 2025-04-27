@@ -5,8 +5,8 @@ import com.baymax.exam.common.core.base.IBaseEnum;
 import lombok.Getter;
 
 /**
- * @author ：Baymax
- * @date ：Created in 2022/10/18 15:16
+ * @author ：MouseBaby678
+ * @date ：Created in 2025/4/27 16:51
  * @description：题目类型
  * @modified By：
  * @version:

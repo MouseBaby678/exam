@@ -4,8 +4,8 @@ import com.baymax.exam.center.model.ParseQuestionRules;
 import lombok.Getter;
 
 /**
- * @author ：Baymax
- * @date ：Created in 2022/11/12 11:11
+ * @author ：MouseBaby678
+ * @date ：Created in 2025/4/27 16:51
  * @description：默认题目规则
  * @modified By：
  * @version:

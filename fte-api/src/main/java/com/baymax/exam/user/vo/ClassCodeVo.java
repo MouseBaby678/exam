@@ -7,8 +7,8 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * @author ：Baymax
- * @date ：Created in 2022/10/14 8:52
+ * @author ：MouseBaby678
+ * @date ：Created in 2025/4/27 16:51
  * @description：班级码
  * @modified By：
  * @version:

@@ -5,8 +5,8 @@ import com.baymax.exam.user.model.User;
 import lombok.Data;
 
 /**
- * @author ：Baymax
- * @date ：Created in 2022/10/13 17:03
+ * @author ：MouseBaby678
+ * @date ：Created in 2025/4/27 16:51
  * @description：课程信息
  * @modified By：
  * @version:
