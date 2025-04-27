@@ -14,14 +14,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
-/**
- * <p>
- * 
- * </p>
- *
- * @author Baymax
- * @since 2022-03-13
- */
+
 @Getter
 @Setter
 @TableName("ee_mails")
