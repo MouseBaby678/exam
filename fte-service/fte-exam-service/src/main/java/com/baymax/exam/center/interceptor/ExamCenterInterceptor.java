@@ -63,7 +63,12 @@ public class ExamCenterInterceptor implements HandlerInterceptor {
         if(joinClass==null){
             throw new ExamOnLineException("非法请求~");
         }
-        if(nowTime.isBefore(examInfo.getStartTime())||nowTime.isAfter(examInfo.getEndTime())){
+        // 给考试结束时间增加5秒缓冲时间，使学生可以在考试刚结束后的5秒内仍然能提交试卷
+        LocalDateTime endTimeWithBuffer = examInfo.getEndTime().plusSeconds(5);
+        log.info("endTimeWithBuffer:{}",endTimeWithBuffer);
+        log.info("nowTime:{}",nowTime);
+        log.info("examInfo.getStartTime():{}",examInfo.getStartTime());
+        if(nowTime.isBefore(examInfo.getStartTime()) || nowTime.isAfter(endTimeWithBuffer)){
             throw new ExamOnLineException("不在考试时间~");
         }
         //判断是否交卷

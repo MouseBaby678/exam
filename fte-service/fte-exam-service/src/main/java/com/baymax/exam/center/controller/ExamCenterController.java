@@ -197,6 +197,10 @@ public class ExamCenterController {
     @PostMapping("/submit")
     public Result submit(@PathVariable Integer examInfoId){
         ExamInfo examInfo = (ExamInfo) request.getAttribute(EXAM_INFO_KEY);
+        //检查是否可以提交，如果设置了提交时间且当前时间早于提交时间，则不允许提交
+        if (examInfo.getSubmitTime() != null && LocalDateTime.now().isBefore(examInfo.getSubmitTime())) {
+            return Result.msgInfo("未到提交时间，不能交卷");
+        }
         //放入缓存，提交答案的时候在存到数据库
         int userId = UserAuthUtil.getUserId();
         submit(userId,examInfo);
