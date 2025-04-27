@@ -17,11 +17,11 @@ import javax.validation.constraints.NotNull;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
- * @author baymax
- * @since 2022-10-11
+ * @author MouseBaby678
+ * @since 2025-4-27
  */
 @Getter
 @Setter
