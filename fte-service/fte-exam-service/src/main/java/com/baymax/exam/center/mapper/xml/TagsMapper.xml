@@ -3,7 +3,7 @@
 <mapper namespace="com.baymax.exam.center.mapper.TagsMapper">
 
     <select id="getCoursePublicTags" resultType="com.baymax.exam.center.model.Tags">
-        SELECT
+        SELECT DISTINCT
             t.*
         FROM
             eq_tags t
