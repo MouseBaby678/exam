@@ -18,8 +18,8 @@ import java.util.List;
  *  服务实现类
  * </p>
  *
- * @author baymax
- * @since 2022-10-11
+ * @author MouseBaby678
+ * @since 2025-4-27
  */
 @Service
 public class ClassesServiceImpl extends ServiceImpl<ClassesMapper, Classes> implements IClassesService {

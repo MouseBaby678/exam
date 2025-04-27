@@ -12,8 +12,8 @@ import org.apache.ibatis.annotations.Mapper;
  * 课程信息 Mapper 接口
  * </p>
  *
- * @author baymax
- * @since 2022-10-11
+ * @author MouseBaby678
+ * @since 2025-4-27
  */
 @Mapper
 public interface CoursesMapper extends BaseMapper<Courses> {

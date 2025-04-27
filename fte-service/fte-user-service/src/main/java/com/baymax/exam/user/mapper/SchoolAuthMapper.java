@@ -11,15 +11,15 @@ import org.apache.ibatis.annotations.Param;
  * 学生认证表 Mapper 接口
  * </p>
  *
- * @author baymax
- * @since 2022-12-14
+ * @author MouseBaby678
+ * @since 2025-4-27
  */
 @Mapper
 public interface SchoolAuthMapper extends BaseMapper<SchoolAuth> {
-    
+
     /**
      * 通过ID直接删除认证记录
-     * 
+     *
      * @param authId 认证记录ID
      * @return 删除的记录数
      */

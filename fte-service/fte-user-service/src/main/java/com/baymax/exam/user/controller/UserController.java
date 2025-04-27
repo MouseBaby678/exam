@@ -1,8 +1,8 @@
 package com.baymax.exam.user.controller;
 
 /**
- * @author ：Baymax
- * @date ：Created in 2022/10/5 9:34
+ * @author MouseBaby678
+ * @date ：Created in 2025/4/27 22:11
  * @description：用户信息
  * @modified By：
  * @version:
@@ -120,11 +120,11 @@ public class UserController {
         if (user == null) {
             return Result.msgInfo("用户不存在");
         }
-        
+
         // 清除用户认证ID
         user.setAuthId(null);
         boolean updated = userService.updateById(user);
-        
+
         if (updated) {
             return Result.success("操作成功");
         } else {

@@ -12,8 +12,8 @@ import com.baymax.exam.user.po.CourseUserPo;
  *  服务类
  * </p>
  *
- * @author baymax
- * @since 2022-10-13
+ * @author MouseBaby678
+ * @since 2025-4-27
  */
 public interface IJoinClassService extends IService<JoinClass> {
     /**

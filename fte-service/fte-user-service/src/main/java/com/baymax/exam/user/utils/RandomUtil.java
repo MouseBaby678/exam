@@ -3,8 +3,8 @@ package com.baymax.exam.user.utils;
 import java.util.Random;
 
 /**
- * @author ：Baymax
- * @date ：Created in 2022/10/14 14:52
+ * @author MouseBaby678
+ * @date ：Created in 2025/4/27 22:14
  * @description：
  * @modified By：
  * @version:

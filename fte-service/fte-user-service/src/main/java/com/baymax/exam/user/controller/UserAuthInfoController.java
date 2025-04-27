@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
  * VIEW 前端控制器
  * </p>
  *
- * @author baymax
- * @since 2022-12-14
+ * @author MouseBaby678
+ * @since 2025-4-27
  */
 @RestController
 @RequestMapping("/user-auth")

@@ -9,8 +9,8 @@ import com.baymax.exam.user.model.User;
  * 用户信息 服务类
  * </p>
  *
- * @author baymax
- * @since 2022-10-07
+ * @author MouseBaby678
+ * @since 2025-4-27
  */
 public interface IUserService extends IService<User> {
     /**

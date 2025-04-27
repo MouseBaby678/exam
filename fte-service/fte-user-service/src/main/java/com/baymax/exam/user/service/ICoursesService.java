@@ -10,8 +10,8 @@ import com.baymax.exam.user.vo.CourseInfoVo;
  * 课程信息 服务类
  * </p>
  *
- * @author baymax
- * @since 2022-10-11
+ * @author MouseBaby678
+ * @since 2025-4-27
  */
 public interface ICoursesService extends IService<Courses> {
     /**

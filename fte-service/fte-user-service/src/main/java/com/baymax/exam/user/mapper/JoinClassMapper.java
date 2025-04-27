@@ -13,8 +13,8 @@ import java.util.Collection;
  *  Mapper 接口
  * </p>
  *
- * @author baymax
- * @since 2022-10-13
+ * @author MouseBaby678
+ * @since 2025-4-27
  */
 @Mapper
 public interface JoinClassMapper extends BaseMapper<JoinClass> {

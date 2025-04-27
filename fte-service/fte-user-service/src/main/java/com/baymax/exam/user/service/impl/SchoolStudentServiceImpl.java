@@ -21,12 +21,12 @@ import java.util.Map;
  * 学校用户认证信息 服务实现类
  * </p>
  *
- * @author baymax
- * @since 2022-12-14
+ * @author MouseBaby678
+ * @since 2025-4-27
  */
 @Service
 public class SchoolStudentServiceImpl extends ServiceImpl<SchoolStudentMapper, SchoolStudent> implements ISchoolStudentService {
-    
+
     /**
      * 根据学号和姓名查询学生信息
      *
@@ -40,7 +40,7 @@ public class SchoolStudentServiceImpl extends ServiceImpl<SchoolStudentMapper, S
         queryWrapper.eq("job_no", jobNo).eq("real_name", realName);
         return getOne(queryWrapper);
     }
-    
+
     /**
      * 批量导入学生信息
      *
@@ -53,11 +53,11 @@ public class SchoolStudentServiceImpl extends ServiceImpl<SchoolStudentMapper, S
         if (students == null || students.isEmpty()) {
             return Result.msgInfo("请提供有效的学生信息列表");
         }
-        
+
         Map<String, Object> result = new HashMap<>();
         List<SchoolStudent> successStudents = new ArrayList<>();
         List<Map<String, Object>> failedStudents = new ArrayList<>();
-        
+
         for (SchoolStudent student : students) {
             // 验证必要字段
             if (student.getJobNo() == null || student.getRealName() == null || student.getDepartmentId() == null) {
@@ -67,7 +67,7 @@ public class SchoolStudentServiceImpl extends ServiceImpl<SchoolStudentMapper, S
                 failedStudents.add(failInfo);
                 continue;
             }
-            
+
             // 检查是否已存在相同学号
             if (checkJobNoExists(student.getJobNo())) {
                 Map<String, Object> failInfo = new HashMap<>();
@@ -76,12 +76,12 @@ public class SchoolStudentServiceImpl extends ServiceImpl<SchoolStudentMapper, S
                 failedStudents.add(failInfo);
                 continue;
             }
-            
+
             // 设置创建和更新时间
             student.setCreatedAt(LocalDateTime.now());
             student.setUpdatedAt(LocalDateTime.now());
             student.setStatus(1); // 默认有效
-            
+
             // 保存学生信息
             try {
                 boolean saved = save(student);
@@ -100,18 +100,18 @@ public class SchoolStudentServiceImpl extends ServiceImpl<SchoolStudentMapper, S
                 failedStudents.add(failInfo);
             }
         }
-        
+
         result.put("success", successStudents);
         result.put("failed", failedStudents);
         result.put("totalCount", students.size());
         result.put("successCount", successStudents.size());
         result.put("failCount", failedStudents.size());
-        
+
         Result<Object> response = Result.success(result);
         response.setMsg("批量导入完成，成功" + successStudents.size() + "条，失败" + failedStudents.size() + "条");
         return response;
     }
-    
+
     /**
      * 检查学号是否已存在
      *
@@ -124,7 +124,7 @@ public class SchoolStudentServiceImpl extends ServiceImpl<SchoolStudentMapper, S
         queryWrapper.eq("job_no", jobNo);
         return count(queryWrapper) > 0;
     }
-    
+
     /**
      * 获取学院下的学生列表
      *
@@ -137,7 +137,7 @@ public class SchoolStudentServiceImpl extends ServiceImpl<SchoolStudentMapper, S
         queryWrapper.eq("department_id", departmentId);
         return list(queryWrapper);
     }
-    
+
     /**
      * 更新学生状态
      *

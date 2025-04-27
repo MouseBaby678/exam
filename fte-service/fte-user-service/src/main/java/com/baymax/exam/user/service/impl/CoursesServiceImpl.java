@@ -19,8 +19,8 @@ import java.util.Map;
  * 课程信息 服务实现类
  * </p>
  *
- * @author baymax
- * @since 2022-10-11
+ * @author MouseBaby678
+ * @since 2025-4-27
  */
 @Service
 public class CoursesServiceImpl extends ServiceImpl<CoursesMapper, Courses> implements ICoursesService {

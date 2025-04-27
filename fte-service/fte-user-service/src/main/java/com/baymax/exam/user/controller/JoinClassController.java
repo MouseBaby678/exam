@@ -27,8 +27,8 @@ import java.util.Set;
  *  前端控制器
  * </p>
  *
- * @author baymax
- * @since 2022-10-13
+ * @author MouseBaby678
+ * @since 2025-4-27
  */
 @Tag(name = "加入课程班级")
 @RestController

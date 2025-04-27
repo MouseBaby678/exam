@@ -33,8 +33,8 @@ import java.util.Map;
  * 课程信息 前端控制器
  * </p>
  *
- * @author baymax
- * @since 2022-10-11
+ * @author MouseBaby678
+ * @since 2025-4-27
  */
 @Slf4j
 @Validated
@@ -52,7 +52,7 @@ public class CoursesController {
     FileDetailClient fileDetailClient;
     @Autowired
     CoursesCoverGeneratorService coursesCoverGeneratorService;
-    
+
     @Operation(summary = "创建/更新课程")
     @PostMapping("/update")
     public Result add(@RequestBody @Validated Courses courses) {
@@ -88,7 +88,7 @@ public class CoursesController {
         if(courseName == null || courseName.trim().isEmpty()) {
             return Result.failed(ResultCode.PARAM_ERROR, "课程名称不能为空");
         }
-        
+
         // 调用封面生成服务
         String coverUrl = coursesCoverGeneratorService.generateCourseCover(courseName);
         return Result.success("生成成功", coverUrl);

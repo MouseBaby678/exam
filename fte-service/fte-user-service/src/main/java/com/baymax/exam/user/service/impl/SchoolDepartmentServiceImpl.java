@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
  * 学习部门信息 服务实现类
  * </p>
  *
- * @author baymax
- * @since 2022-12-14
+ * @author MouseBaby678
+ * @since 2025-4-27
  */
 @Service
 public class SchoolDepartmentServiceImpl extends ServiceImpl<SchoolDepartmentMapper, SchoolDepartment> implements ISchoolDepartmentService {

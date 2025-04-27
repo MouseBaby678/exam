@@ -11,11 +11,11 @@ import java.util.List;
  * 学校用户认证信息 服务类
  * </p>
  *
- * @author baymax
- * @since 2022-12-14
+ * @author MouseBaby678
+ * @since 2025-4-27
  */
 public interface ISchoolStudentService extends IService<SchoolStudent> {
-    
+
     /**
      * 根据学号和姓名查询学生信息
      *
@@ -24,7 +24,7 @@ public interface ISchoolStudentService extends IService<SchoolStudent> {
      * @return 学生信息
      */
     SchoolStudent getStudentByJobNoAndRealName(String jobNo, String realName);
-    
+
     /**
      * 批量导入学生信息
      *
@@ -32,7 +32,7 @@ public interface ISchoolStudentService extends IService<SchoolStudent> {
      * @return 结果
      */
     Result<Object> batchImportStudents(List<SchoolStudent> students);
-    
+
     /**
      * 检查学号是否已存在
      *
@@ -40,7 +40,7 @@ public interface ISchoolStudentService extends IService<SchoolStudent> {
      * @return 是否存在
      */
     boolean checkJobNoExists(String jobNo);
-    
+
     /**
      * 获取学院下的学生列表
      *
@@ -48,7 +48,7 @@ public interface ISchoolStudentService extends IService<SchoolStudent> {
      * @return 学生列表
      */
     List<SchoolStudent> getStudentsByDepartmentId(Integer departmentId);
-    
+
     /**
      * 更新学生状态
      *

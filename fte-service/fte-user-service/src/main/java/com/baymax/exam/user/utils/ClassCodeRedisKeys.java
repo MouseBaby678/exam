@@ -3,8 +3,8 @@ package com.baymax.exam.user.utils;
 import static com.baymax.exam.common.core.base.RedisKeyConstants.REDIS_COURSE_CLASS_CODE_KEY;
 
 /**
- * @author ：Baymax
- * @date ：Created in 2022/12/7 18:50
+ * @author MouseBaby678
+ * @date ：Created in 2025/4/27 22:14
  * @description：班级码reids规则
  * @modified By：
  * @version:

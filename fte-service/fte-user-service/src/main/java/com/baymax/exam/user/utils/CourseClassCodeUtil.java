@@ -18,8 +18,8 @@ import java.util.concurrent.TimeUnit;
 
 
 /**
- * @author ：Baymax
- * @date ：Created in 2022/12/7 18:34
+ * @author MouseBaby678
+ * @date ：Created in 2025/4/27 22:14
  * @description：课程码工具
  * @modified By：
  * @version:
