@@ -62,7 +62,7 @@ public class ExamAnswerLogController {
             }else if(status.getValue()>50){
                 //异常行为
                 Integer count = abnormalAction.get(status);
-                count=(count==null)?0:count+1;
+                count=(count==null)?1:count+1;
                 abnormalCount.getAndIncrement();
                 abnormalAction.put(status,count);
             }
