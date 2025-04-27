@@ -18,14 +18,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
-/**
- * <p>
- * 用户信息
- * </p>
- *
- * @author baymax
- * @since 2022-10-07
- */
+
 @Getter
 @Setter
 @TableName("es_user")
