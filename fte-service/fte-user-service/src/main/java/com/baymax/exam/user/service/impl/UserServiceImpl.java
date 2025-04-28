@@ -46,6 +46,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         upUser.setEncodePassword(user.getPassword());
         upUser.setNickname(user.getNickname());
         upUser.setEmail(user.getEmail());
+        upUser.setRole(user.getRole());
         save(upUser);
         return Result.success();
     }
