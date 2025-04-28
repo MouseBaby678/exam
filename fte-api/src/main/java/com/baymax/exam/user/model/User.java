@@ -34,7 +34,7 @@ public class User extends BaseEntity {
     @Schema(description = "用户名")
     private String username;
 
-    @Length(min = 5,max = 25,message = "用户名应在5~25字符",groups = {RegisterRequestValid.class})
+    @Length(min = 5,max = 25,message = "昵称应在5~25字符",groups = {RegisterRequestValid.class})
     @Schema(description = "别名")
     private String nickname;
 
