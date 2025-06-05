@@ -37,8 +37,6 @@ import java.util.stream.Collectors;
  * 题目信息 前端控制器
  * </p>
  *规定：所有类型题目至少要有一下选项，如主观题，就算没有答案，都要给一个选项
- * @author baymax
- * @since 2022-10-18
  */
 @Slf4j
 @Validated
@@ -79,22 +77,22 @@ public class QuestionController {
         List<QuestionInfoVo> list=batchQuestion.getQuestionInfos();
         Set<Question> configSet = batchQuestion.getQuestionConfig();
         List<String> result=new ArrayList<>();
-        
+
         list.stream().forEach(i->{
             i.setTeacherId(userId);
             i.setTagId(batchQuestion.getTagId());
             i.setCourseId(batchQuestion.getCourseId());
-            
+
             // 应用题目配置
             if(configSet != null && !configSet.isEmpty()) {
                 applyQuestionConfig(i, configSet);
             }
-            
+
             result.add(questionService.addQuestion(i));
         });
         return Result.success(result);
     }
-    
+
     /**
      * 将题目配置应用到题目上
      * @param questionInfo 题目信息
@@ -103,30 +101,30 @@ public class QuestionController {
     private void applyQuestionConfig(QuestionInfoVo questionInfo, Set<Question> configSet) {
         // 根据题目类型查找匹配的配置
         String questionType = questionInfo.getType().name();
-        
+
         for (Question config : configSet) {
             // 检查类型是否匹配（前端可能发送的是枚举名称字符串，而不是枚举对象）
             Object configType = config.getType();
             boolean typeMatches = false;
-            
+
             if (configType instanceof String && questionType.equals(configType)) {
                 typeMatches = true;
-            } else if (configType instanceof QuestionTypeEnum && 
+            } else if (configType instanceof QuestionTypeEnum &&
                       questionType.equals(((QuestionTypeEnum)configType).name())) {
                 typeMatches = true;
             }
-            
+
             if (typeMatches) {
                 // 应用难度设置
                 if(config.getDifficulty() != null) {
                     questionInfo.setDifficulty(config.getDifficulty());
                 }
-                
+
                 // 应用分值设置
                 if(config.getScore() != null) {
                     questionInfo.setScore(config.getScore());
                 }
-                
+
                 // 应用可见状态设置
                 Object visibleStatus = config.getIsPublic();
                 if(visibleStatus != null) {
@@ -136,17 +134,17 @@ public class QuestionController {
                         questionInfo.setIsPublic((QuestionVisibleEnum)visibleStatus);
                     }
                 }
-                
+
                 break;
             }
         }
     }
-    
+
     /**
      * 转换可见状态
      * 前端传递的是字符串表示的枚举名称（如"self"、"course"、"overt"），
      * 需要转换为QuestionVisibleEnum枚举实例
-     * 
+     *
      * @param visibleStatus 可见状态字符串
      * @return QuestionVisibleEnum 枚举实例
      */
@@ -181,10 +179,10 @@ public class QuestionController {
             text=text.replaceAll("<p>|<\\/p>","");
             log.info("题目文本",text);
             log.info("题目文本"+text);
-            
+
             List<QuestionInfoVo> parsedQuestions = ParseQuestionText.parse(text,rule);
             log.info("解析结果数量: {}", parsedQuestions.size());
-            
+
             return Result.success(parsedQuestions);
         } catch (Exception e) {
             log.error("解析题目时发生异常", e);
@@ -270,7 +268,7 @@ public class QuestionController {
         QuestionInfoVo questionInfo = questionService.questionInfo(questionId);
         return Result.success(questionInfo);
     }
-    
+
     @Operation(summary = "批量删除题目")
     @PostMapping("/batchDelete")
     public Result batchDelete(@RequestBody Map<String, List<Integer>> requestMap) {
@@ -278,9 +276,9 @@ public class QuestionController {
         if (questionIds == null || questionIds.isEmpty()) {
             return Result.failed(ResultCode.PARAM_ERROR, "题目ID列表不能为空");
         }
-        
+
         Integer userId = UserAuthUtil.getUserId();
-        
+
         // 检查所有题目是否都属于当前用户
         List<Question> questions = questionService.listByIds(questionIds);
         for (Question question : questions) {
@@ -288,7 +286,7 @@ public class QuestionController {
                 return Result.failed(ResultCode.PARAM_ERROR, "存在无权限操作的题目");
             }
         }
-        
+
         // 执行批量删除
         boolean success = questionService.removeByIds(questionIds);
         if (success) {
@@ -297,21 +295,21 @@ public class QuestionController {
             return Result.msgError("批量删除失败");
         }
     }
-    
+
     @Operation(summary = "批量更新题目可见性")
     @PostMapping("/batchUpdateVisibility")
     public Result batchUpdateVisibility(@RequestBody Map<String, Object> requestMap) {
         List<Integer> questionIds = (List<Integer>) requestMap.get("questionIds");
         String visibility = (String) requestMap.get("visibility");
-        
+
         if (questionIds == null || questionIds.isEmpty()) {
             return Result.failed(ResultCode.PARAM_ERROR, "题目ID列表不能为空");
         }
-        
+
         if (visibility == null || visibility.isEmpty()) {
             return Result.failed(ResultCode.PARAM_ERROR, "可见性参数不能为空");
         }
-        
+
         // 转换可见性参数
         QuestionVisibleEnum visibleEnum;
         try {
@@ -319,9 +317,9 @@ public class QuestionController {
         } catch (IllegalArgumentException e) {
             return Result.failed(ResultCode.PARAM_ERROR, "不支持的可见性类型");
         }
-        
+
         Integer userId = UserAuthUtil.getUserId();
-        
+
         // 检查所有题目是否都属于当前用户
         List<Question> questions = questionService.listByIds(questionIds);
         for (Question question : questions) {
@@ -329,7 +327,7 @@ public class QuestionController {
                 return Result.failed(ResultCode.PARAM_ERROR, "存在无权限操作的题目");
             }
         }
-        
+
         // 执行批量更新
         boolean success = true;
         for (Integer questionId : questionIds) {
@@ -338,7 +336,7 @@ public class QuestionController {
             question.setIsPublic(visibleEnum);
             success = success && questionService.updateById(question);
         }
-        
+
         if (success) {
             return Result.msgSuccess("批量更新可见性成功");
         } else {

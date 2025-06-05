@@ -29,8 +29,6 @@ import java.util.Objects;
  * 题目标签表 前端控制器
  * </p>
  *
- * @author baymax
- * @since 2022-10-17
  */
 @Slf4j
 @Validated

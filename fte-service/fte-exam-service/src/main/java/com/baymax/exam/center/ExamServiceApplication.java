@@ -8,8 +8,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
- * @author ：Baymax
- * @date ：Created in 2022/10/17 19:05
  * @description：
  * @modified By：
  * @version:

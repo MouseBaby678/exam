@@ -10,8 +10,6 @@ import java.util.List;
  * 题目选择表 服务类
  * </p>
  *
- * @author baymax
- * @since 2022-10-18
  */
 public interface IQuestionItemService extends IService<QuestionItem> {
     /**

@@ -14,8 +14,6 @@ import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 import javax.annotation.Resource;
 
 /**
- * @author ：Baymax
- * @date ：Created in 2022/11/21 20:55
  * @description：WebSocket配置类
  * @modified By：
  * @version:

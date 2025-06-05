@@ -17,8 +17,6 @@ import java.util.List;
  * 题目信息 服务类
  * </p>
  *
- * @author baymax
- * @since 2022-10-18
  */
 public interface IQuestionService extends IService<Question> {
 

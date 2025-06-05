@@ -12,8 +12,6 @@ import java.util.List;
  *  服务类
  * </p>
  *
- * @author baymax
- * @since 2022-10-26
  */
 public interface IExamQuestionService extends IService<ExamQuestion> {
     /**

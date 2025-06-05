@@ -21,8 +21,6 @@ import java.util.Map;
  *  服务实现类
  * </p>
  *
- * @author baymax
- * @since 2022-11-21
  */
 @Service
 public class MessageInfoServiceImpl extends ServiceImpl<MessageInfoMapper, MessageInfo> implements IMessageInfoService {

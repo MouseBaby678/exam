@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @author ：Baymax
- * @date ：Created in 2023/2/6 13:41
  * @description：
  * @modified By：
  * @version:

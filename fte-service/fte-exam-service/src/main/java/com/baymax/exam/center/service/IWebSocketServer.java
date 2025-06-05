@@ -3,8 +3,6 @@ package com.baymax.exam.center.service;
 import javax.websocket.Session;
 
 /**
- * @author ：Baymax
- * @date ：Created in 2022/11/18 14:48
  * @description：
  * @modified By：
  * @version:

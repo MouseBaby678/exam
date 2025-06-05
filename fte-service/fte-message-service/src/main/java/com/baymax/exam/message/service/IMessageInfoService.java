@@ -8,8 +8,6 @@ import com.baymax.exam.message.model.MessageInfo;
  *  服务类
  * </p>
  *
- * @author baymax
- * @since 2022-11-21
  */
 public interface IMessageInfoService extends IService<MessageInfo> {
 

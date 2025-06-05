@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
- * @author ：Baymax
- * @date ：Created in 2022/11/9 13:18
  * @description：全局异常处理
  * @modified By：
  * @version:

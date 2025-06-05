@@ -35,8 +35,6 @@ import static com.baymax.exam.center.interceptor.ExamCenterInterceptor.EXAM_INFO
 /**
  * 缓存处理建议
  *
- * @author ：Baymax
- * @date ：Created in 2022/10/31 18:19
  * @description：考试中心
  * @modified By：
  * @version:

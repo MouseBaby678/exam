@@ -11,8 +11,6 @@ import java.util.List;
  * 题目标签表 Mapper 接口
  * </p>
  *
- * @author baymax
- * @since 2022-10-17
  */
 @Mapper
 public interface TagsMapper extends BaseMapper<Tags> {

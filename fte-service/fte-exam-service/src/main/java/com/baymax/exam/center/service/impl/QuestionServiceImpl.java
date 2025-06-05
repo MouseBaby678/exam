@@ -30,8 +30,6 @@ import java.util.stream.Collectors;
  * 题目信息 服务实现类
  * </p>
  *
- * @author baymax
- * @since 2022-10-18
  */
 @Slf4j
 @Service
@@ -108,10 +106,10 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         LambdaQueryWrapper<Question> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(Question::getTeacherId,userId);
         queryWrapper.eq(Question::getCourseId,courseId);
-        
+
         if(tagList!=null&&!tagList.isEmpty()){
             boolean hasRootTag = tagList.contains(0);
-            
+
             // 创建一个新的集合以避免修改原始集合
             Collection<Integer> filteredTagList = new ArrayList<>(tagList);
             if(hasRootTag) {
@@ -124,7 +122,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
                     queryWrapper.isNull(Question::getTagId);
                 } else {
                     // 查询根目录和指定tag_id的题目
-                    queryWrapper.and(wrapper -> 
+                    queryWrapper.and(wrapper ->
                         wrapper.isNull(Question::getTagId)
                                .or()
                                .in(Question::getTagId, filteredTagList)
@@ -135,7 +133,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
                 queryWrapper.in(Question::getTagId, filteredTagList);
             }
         }
-        
+
         if(typeList!=null&&!typeList.isEmpty()){
             queryWrapper.in(Question::getType,typeList);
         }

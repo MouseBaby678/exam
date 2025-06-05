@@ -16,8 +16,6 @@ import java.util.List;
  * 题目信息 Mapper 接口
  * </p>
  *
- * @author baymax
- * @since 2022-10-18
  */
 @Mapper
 public interface QuestionMapper extends BaseMapper<Question> {

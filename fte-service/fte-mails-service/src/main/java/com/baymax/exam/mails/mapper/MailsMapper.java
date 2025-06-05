@@ -9,8 +9,6 @@ import org.apache.ibatis.annotations.Mapper;
  *  Mapper 接口
  * </p>
  *
- * @author Baymax
- * @since 2022-03-13
  */
 @Mapper
 public interface MailsMapper extends BaseMapper<Mails> {

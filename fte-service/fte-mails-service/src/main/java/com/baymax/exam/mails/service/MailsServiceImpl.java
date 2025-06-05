@@ -24,8 +24,6 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
  *  服务实现类
  * </p>
  *
- * @author Baymax
- * @since 2022-03-13
  */
 @Slf4j
 @Service

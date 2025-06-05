@@ -10,8 +10,6 @@ import java.util.List;
  * 题目标签表 服务类
  * </p>
  *
- * @author baymax
- * @since 2022-10-17
  */
 public interface ITagsService extends IService<Tags> {
     /**

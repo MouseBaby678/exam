@@ -9,8 +9,6 @@ import org.apache.ibatis.annotations.Mapper;
  *  Mapper 接口
  * </p>
  *
- * @author baymax
- * @since 2022-11-21
  */
 @Mapper
 public interface MessageInfoMapper extends BaseMapper<MessageInfo> {

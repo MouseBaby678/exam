@@ -12,8 +12,6 @@ import java.util.List;
  *  Mapper 接口
  * </p>
  *
- * @author baymax
- * @since 2022-10-26
  */
 @Mapper
 public interface ExamQuestionMapper extends BaseMapper<ExamQuestion> {

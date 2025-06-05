@@ -9,8 +9,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import javax.annotation.Resource;
 
 /**
- * @author ：Baymax
- * @date ：Created in 2022/10/12 20:20
  * @description：web配置类
  * @modified By：
  * @version:

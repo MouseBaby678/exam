@@ -10,8 +10,6 @@ import org.apache.ibatis.annotations.Mapper;
  * 考试试卷信息表 Mapper 接口
  * </p>
  *
- * @author baymax
- * @since 2022-10-26
  */
 @Mapper
 public interface ExamMapper extends BaseMapper<ExamPaper> {

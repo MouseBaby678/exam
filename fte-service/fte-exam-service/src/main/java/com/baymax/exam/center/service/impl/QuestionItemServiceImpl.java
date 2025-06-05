@@ -15,8 +15,6 @@ import java.util.List;
  * 题目选择表 服务实现类
  * </p>
  *
- * @author baymax
- * @since 2022-10-18
  */
 @Service
 public class QuestionItemServiceImpl extends ServiceImpl<QuestionItemMapper, QuestionItem> implements IQuestionItemService {

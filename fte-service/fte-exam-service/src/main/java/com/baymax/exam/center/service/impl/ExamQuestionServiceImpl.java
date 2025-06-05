@@ -19,8 +19,6 @@ import java.util.Map;
  *  服务实现类
  * </p>
  *
- * @author baymax
- * @since 2022-10-26
  */
 @Service
 public class ExamQuestionServiceImpl extends ServiceImpl<ExamQuestionMapper, ExamQuestion> implements IExamQuestionService {

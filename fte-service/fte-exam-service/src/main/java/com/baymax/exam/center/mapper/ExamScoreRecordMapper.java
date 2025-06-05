@@ -12,8 +12,6 @@ import java.util.List;
  * 考试得分 Mapper 接口
  * </p>
  *
- * @author baymax
- * @since 2022-12-11
  */
 @Mapper
 public interface ExamScoreRecordMapper extends BaseMapper<ExamScoreRecord> {

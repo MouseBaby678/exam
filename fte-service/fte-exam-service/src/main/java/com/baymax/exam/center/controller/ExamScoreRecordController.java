@@ -28,8 +28,6 @@ import java.util.Objects;
  * 考试得分 前端控制器
  * </p>
  *
- * @author baymax
- * @since 2022-12-11
  */
 @RestController
 @RequestMapping("/exam-score-record")

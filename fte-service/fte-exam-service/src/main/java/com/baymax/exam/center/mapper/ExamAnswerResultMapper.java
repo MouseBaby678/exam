@@ -11,8 +11,6 @@ import java.util.List;
  * 考试作答结果 Mapper 接口
  * </p>
  *
- * @author baymax
- * @since 2022-11-04
  */
 @Mapper
 public interface ExamAnswerResultMapper extends BaseMapper<ExamAnswerResult> {

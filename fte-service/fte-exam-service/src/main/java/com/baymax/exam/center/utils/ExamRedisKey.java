@@ -4,8 +4,6 @@ package com.baymax.exam.center.utils;
 import static com.baymax.exam.common.core.base.RedisKeyConstants.RDS_EXAM_ONLINE_KEY;
 
 /**
- * @author ：Baymax
- * @date ：Created in 2022/11/4 19:40
  * @description：缓存key规则
  * @modified By：
  * @version:

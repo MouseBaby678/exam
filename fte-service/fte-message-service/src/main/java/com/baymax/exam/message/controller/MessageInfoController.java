@@ -43,8 +43,6 @@ import java.util.stream.Collectors;
  *  前端控制器
  * </p>
  *
- * @author baymax
- * @since 2022-11-21
  */
 @Slf4j
 @Tag(name = "消息服务")

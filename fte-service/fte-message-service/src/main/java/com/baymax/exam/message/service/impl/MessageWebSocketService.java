@@ -7,8 +7,6 @@ import org.springframework.stereotype.Component;
 import javax.websocket.server.ServerEndpoint;
 
 /**
- * @author ：Baymax
- * @date ：Created in 2022/11/18 14:37
  * @description：考试控制台stocket服务
  * @modified By：
  * @version:

@@ -42,8 +42,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 /**
- * @author ：Baymax
- * @date ：Created in 2022/11/18 9:40
  * @description：考试控制台
  * @modified By：
  * @version:

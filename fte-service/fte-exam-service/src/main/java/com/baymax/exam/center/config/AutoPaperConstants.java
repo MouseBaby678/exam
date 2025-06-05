@@ -1,8 +1,6 @@
 package com.baymax.exam.center.config;
 
 /**
- * @author ：Baymax
- * @date ：Created in 2023/2/22 18:29
  * @description：
  * @modified By：
  * @version:

@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
  *  前端控制器
  * </p>
  *
- * @author baymax
- * @since 2022-10-28
  */
 @RestController
 @RequestMapping("/exam-class")

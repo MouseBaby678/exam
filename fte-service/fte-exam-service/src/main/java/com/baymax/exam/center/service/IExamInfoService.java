@@ -9,8 +9,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * 考试信息 服务类
  * </p>
  *
- * @author baymax
- * @since 2022-10-28
  */
 public interface IExamInfoService extends IService<ExamInfo> {
     /**

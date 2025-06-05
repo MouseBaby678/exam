@@ -8,8 +8,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  *  服务类
  * </p>
  *
- * @author baymax
- * @since 2022-10-28
  */
 public interface IExamClassService extends IService<ExamClass> {
     /**

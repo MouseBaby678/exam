@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @author ：Baymax
- * @date ：Created in 2023/3/12 18:23
  * @description：自动组卷配置类 - 优化版
  * @modified By：
  * @version: 2.0
@@ -19,21 +17,21 @@ import lombok.extern.slf4j.Slf4j;
 public class AutomaticPaperConfig {
     // 期望达到的目标适应度值
     private double targetExpand = 0.98;
-    
+
     // 遗传算法基本参数
     private int populationSize = 30; // 种群规模
     private double crossoverRate = 0.85; // 交叉概率
     private double mutationRate = 0.05; // 变异概率
     private int maxGeneration = 60; // 最大迭代次数
     private boolean elitism = true; // 精英保留策略
-    
+
     // 适应度计算权重
     public static double TAG_WEIGHT = 0.30; // 知识点权重
     public static double DIFFICULTY_WEIGHT = 0.70; // 难度权重
-    
+
     // 锦标赛选择参数
     private int tournamentSize = 5;
-    
+
     // 提前终止参数
     private int maxNoImproveCount = 10; // 最大允许连续不改进次数
     private int minGeneration = 15; // 最小迭代次数
@@ -46,13 +44,13 @@ public class AutomaticPaperConfig {
         populationSize = 10;
         maxGeneration = 20;
         mutationRate = 0.25;
-        crossoverRate = 0.75; 
+        crossoverRate = 0.75;
         tournamentSize = 3;
         maxNoImproveCount = 8;
         minGeneration = 10;
         log.info("应用极小规模配置");
     }
-    
+
     /**
      * 小规模配置 - 适用于题库较小或选题数量较少的情况
      */
@@ -67,7 +65,7 @@ public class AutomaticPaperConfig {
         minGeneration = 15;
         log.info("应用小规模配置");
     }
-    
+
     /**
      * 中等规模配置 - 适用于题库和选题数量适中的情况
      */
@@ -82,7 +80,7 @@ public class AutomaticPaperConfig {
         minGeneration = 20;
         log.info("应用中等规模配置");
     }
-    
+
     /**
      * 大规模配置 - 适用于题库很大或选题数量很多的情况
      */
@@ -101,25 +99,25 @@ public class AutomaticPaperConfig {
     /**
      * 根据题量的占比，更改自动组卷的配置
      * 题库越大，可能的组合就越多，需要更大的种群和更多的迭代
-     * 
+     *
      * @param desiredNumber  期望选择的题目数量
      * @param questionNumber 题库中的题目总数
      * @return {@link AutomaticPaperConfig}
      */
     public static AutomaticPaperConfig getConfig(int desiredNumber, int questionNumber) {
         AutomaticPaperConfig config = new AutomaticPaperConfig();
-        
+
         // 题库和选题都很小的特殊情况处理
         if (desiredNumber <= 5 || questionNumber <= 15) {
             config.setMicroScale();
             log.info("题库较小({}题)或选题数较少({}题)，使用极小规模配置", questionNumber, desiredNumber);
             return config;
         }
-        
+
         // 计算题库与选题的比例
         double ratio = (double) questionNumber / desiredNumber;
         log.info("题库/选题比例: {}/{} = {}", questionNumber, desiredNumber, ratio);
-        
+
         // 根据比例选择适当的配置
         if (ratio < 3) {
             config.setLargeScale();
@@ -135,7 +133,7 @@ public class AutomaticPaperConfig {
             config.setMicroScale();
             log.info("题库/选题比例 >= 15，使用极小规模配置（题目选择空间充足）");
         }
-        
+
         return config;
     }
 }

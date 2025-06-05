@@ -25,8 +25,6 @@ import java.util.stream.Collectors;
  *  前端控制器
  * </p>
  *
- * @author baymax
- * @since 2022-10-26
  */
 @Validated
 @Tag(name = "试卷题目管理")

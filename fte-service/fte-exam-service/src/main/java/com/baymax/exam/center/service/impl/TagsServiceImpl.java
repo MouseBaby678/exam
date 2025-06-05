@@ -14,8 +14,6 @@ import java.util.List;
  * 题目标签表 服务实现类
  * </p>
  *
- * @author baymax
- * @since 2022-10-17
  */
 @Service
 public class TagsServiceImpl extends ServiceImpl<TagsMapper, Tags> implements ITagsService {

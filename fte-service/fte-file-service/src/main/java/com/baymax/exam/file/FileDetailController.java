@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * @author ：Baymax
- * @date ：Created in 2023/2/5 8:36
  * @description：
  * @modified By：
  * @version:

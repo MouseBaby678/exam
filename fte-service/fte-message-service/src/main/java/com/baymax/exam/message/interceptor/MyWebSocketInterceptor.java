@@ -13,8 +13,6 @@ import org.springframework.web.socket.server.HandshakeInterceptor;
 import java.util.Map;
 
 /**
- * @author ：Baymax
- * @date ：Created in 2022/11/23 16:00
  * @description：
  * @modified By：
  * @version:

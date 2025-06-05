@@ -30,8 +30,6 @@ import java.util.Map;
  * 题目选择表 前端控制器
  * </p>
  *
- * @author baymax
- * @since 2022-10-18
  */
 @Slf4j
 @Tag(name = "题目选项")

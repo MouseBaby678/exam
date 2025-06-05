@@ -24,8 +24,6 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 /**
- * @author ：Baymax
- * @date ：Created in 2022/11/1 20:00
  * @description：在线考试认证拦截器
  * @modified By：
  * @version:

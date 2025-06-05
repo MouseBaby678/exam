@@ -23,8 +23,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 /**
- * @author ：Baymax
- * @date ：Created in 2022/12/4 13:23
  * @description：考试中心服务
  * @modified By：
  * @version:

@@ -14,8 +14,6 @@ import java.util.List;
  * 考试作答结果 服务实现类
  * </p>
  *
- * @author baymax
- * @since 2022-11-04
  */
 @Service
 public class ExamAnswerResultServiceImpl extends ServiceImpl<ExamAnswerResultMapper, ExamAnswerResult> implements IExamAnswerResultService {

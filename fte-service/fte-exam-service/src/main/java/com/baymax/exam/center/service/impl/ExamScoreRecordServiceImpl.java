@@ -14,8 +14,6 @@ import java.util.List;
  * 考试得分 服务实现类
  * </p>
  *
- * @author baymax
- * @since 2022-12-11
  */
 @Service
 public class ExamScoreRecordServiceImpl extends ServiceImpl<ExamScoreRecordMapper, ExamScoreRecord> implements IExamScoreRecordService {

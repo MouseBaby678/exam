@@ -22,8 +22,6 @@ import java.util.stream.IntStream;
  *      缺点：不能正确提取内容，部分题目提取特征不明显
  * 方式二：逐行读取+正则表达
  *
- * @author ：Baymax
- * @date ：Created in 2022/11/10 16:52
  * @description：解析题目文本
  * @modified By：
  * @version:
@@ -51,7 +49,7 @@ public class ParseQuestionText {
             }
             log.info("题目信息=>"+str);
             questionInfo=new QuestionInfoVo();
-            
+
             // 识别难度、分值和可见度标记
             String metaPattern = "\\[难度:(\\d+)\\]\\s*\\[分值:(\\d+)\\]\\s*\\[可见:(self|course|overt)\\]";
             Pattern pattern1 = Pattern.compile(metaPattern);
@@ -63,13 +61,13 @@ public class ParseQuestionText {
                     if(difficulty >= 0 && difficulty <= 5) {
                         questionInfo.setDifficulty(difficulty);
                     }
-                    
+
                     // 设置分值
                     float score = Float.parseFloat(metaMatcher.group(2));
                     if(score >= 1 && score <= 100) {
                         questionInfo.setScore(score);
                     }
-                    
+
                     // 设置可见性
                     String visibility = metaMatcher.group(3);
                     try {
@@ -78,7 +76,7 @@ public class ParseQuestionText {
                         // 默认设置为自己可见
                         questionInfo.setIsPublic(QuestionVisibleEnum.self);
                     }
-                    
+
                     // 从原文本中移除元信息标记
                     str = str.replaceAll(metaPattern, "").trim();
                     log.info("移除标记后的题目信息=>" + str);
@@ -91,7 +89,7 @@ public class ParseQuestionText {
                 questionInfo.setScore(5.0f);  // 默认5分
                 questionInfo.setIsPublic(QuestionVisibleEnum.self); // 默认自己可见
             }
-            
+
             Pattern pattern= Pattern.compile(answerRule);
             // 现在创建 matcher 对象
             //2.1 提取答案
@@ -119,23 +117,23 @@ public class ParseQuestionText {
             if(optionList.isEmpty()){
                 // 检查题目内容中是否包含下划线填空符
                 boolean hasUnderscorePlaceholder = Pattern.compile("_{1,}").matcher(questionInfo.getContent()).find();
-                
+
                 if(hasUnderscorePlaceholder) {
                     // 如果包含下划线填空符，则认定为填空题
                     type = QuestionTypeEnum.COMPLETION;
                     log.info("检测到下划线填空符，识别为填空题");
-                    
+
                     // 如果只有一个答案但有下划线，仍然视为填空题
                     if(answerList.size() == 1) {
                         // 创建与下划线数量相匹配的答案列表
                         Matcher underscoreMatcher = Pattern.compile("_{1,}").matcher(questionInfo.getContent());
                         List<String> newAnswerList = new ArrayList<>();
-                        
+
                         // 如果下划线数量大于1，但答案只有1个，则用这一个答案填充所有空
                         while(underscoreMatcher.find()) {
                             newAnswerList.add(answerList.get(0));
                         }
-                        
+
                         // 只有当实际找到了下划线时才替换
                         if(!newAnswerList.isEmpty()) {
                             answerList = newAnswerList;
@@ -146,7 +144,7 @@ public class ParseQuestionText {
                     // 无下划线时使用改进的逻辑
                     // 检查是否是主观题的特征
                     boolean isLikelySubjective = false;
-                    
+
                     // 特征1: 答案文本较长(超过50个字符)通常是主观题
                     if (answerList.size() >= 1) {
                         String combinedAnswer = String.join("", answerList);
@@ -155,11 +153,11 @@ public class ParseQuestionText {
                             log.info("答案较长，可能是主观题");
                         }
                     }
-                    
+
                     // 特征2: 题目内容包含"简述"、"论述"、"分析"等关键词
                     String questionContent = questionInfo.getContent().trim();
-                    if (questionContent.contains("简述") || 
-                        questionContent.contains("论述") || 
+                    if (questionContent.contains("简述") ||
+                        questionContent.contains("论述") ||
                         questionContent.contains("分析") ||
                         questionContent.contains("比较") ||
                         questionContent.contains("描述") ||
@@ -167,7 +165,7 @@ public class ParseQuestionText {
                         isLikelySubjective = true;
                         log.info("题目包含主观题关键词，识别为主观题");
                     }
-                    
+
                     // 根据综合判断确定题型
                     if (isLikelySubjective || answerList.size() == 1) {
                         type = QuestionTypeEnum.SUBJECTIVE;

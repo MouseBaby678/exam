@@ -34,8 +34,6 @@ import java.util.List;
  * 考试作答日志 服务实现类
  * </p>
  *
- * @author baymax
- * @since 2022-11-04
  */
 @Service
 public class ExamAnswerLogServiceImpl extends ServiceImpl<ExamAnswerLogMapper, ExamAnswerLog> implements IExamAnswerLogService {

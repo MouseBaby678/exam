@@ -8,8 +8,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * 考试作答结果 服务类
  * </p>
  *
- * @author baymax
- * @since 2022-11-04
  */
 public interface IExamAnswerResultService extends IService<ExamAnswerResult> {
 
