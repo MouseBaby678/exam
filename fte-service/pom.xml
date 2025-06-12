@@ -12,7 +12,6 @@
     <artifactId>fte-service</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>fte-admin-service</module>
         <module>fte-exam-service</module>
         <module>fte-user-service</module>
         <module>fte-message-service</module>
